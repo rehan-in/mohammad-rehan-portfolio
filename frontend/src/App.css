@@ -1,0 +1,16 @@
+/* @tailwind directives require Tailwind CSS build process. Uncomment if using Tailwind CLI or PostCSS. */
+/* @tailwind base; */
+/* @tailwind components; */
+/* @tailwind utilities; */
+
+/* Optional: Custom global styles that don’t interfere with Tailwind */
+body {
+  background-color: #000;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* If you must reset margin/padding, do it selectively */
+* {
+  box-sizing: border-box;
+}
