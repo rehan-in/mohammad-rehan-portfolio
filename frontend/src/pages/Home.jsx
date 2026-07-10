@@ -48,8 +48,7 @@ const Home = ({ isDark }) => {
       organization: "TechCorp Solutions", 
       duration: "Summer 2024",
       description: "Developed IoT solutions and embedded firmware",
-      skills: ["C++", "Arduino", "IoT Protocols"],
-      icon: "Int"
+      skills: ["C++", "Arduino", "IoT Protocols"]
     },
     {
       type: "course",
@@ -57,8 +56,7 @@ const Home = ({ isDark }) => {
       organization: "Coursera",
       date: "Completed Jan 2024",
       description: "Mastered digital circuit design and verification",
-      skills: ["Verilog", "Vivado", "FPGA Programming"],
-      icon: "Crse"
+      skills: ["Verilog", "Vivado", "FPGA Programming"]
     },
     {
       type: "certification",
@@ -66,8 +64,7 @@ const Home = ({ isDark }) => {
       organization: "Udemy",
       date: "Completed Dec 2023", 
       description: "Built full-stack applications with modern frameworks",
-      skills: ["React", "Node.js", "MongoDB"],
-      icon: "Cert"
+      skills: ["React", "Node.js", "MongoDB"]
     }
   ]);
 
