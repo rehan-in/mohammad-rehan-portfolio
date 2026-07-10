@@ -39,8 +39,8 @@ const Resume = () => {
     localStorage.setItem('resumeStatistics', JSON.stringify(stats));
     
     const link = document.createElement('a');
-    link.href = '/Student.pdf';
-    link.download = 'Mohammad_Rehan_Resume.pdf';
+    link.href = '/Resume';
+    link.download = 'Resume.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -72,7 +72,7 @@ const Resume = () => {
       {/* Full Screen PDF - Absolute positioning to cover entire screen */}
       <div className="absolute top-0 left-0 w-full h-full">
         <iframe
-          src="/Student.pdf#toolbar=0&navpanes=0&scrollbar=0"
+          src="/Resume.pdf#toolbar=0&navpanes=0&scrollbar=0"
           title="Mohammad Rehan Resume"
           width="100%"
           height="100%"
