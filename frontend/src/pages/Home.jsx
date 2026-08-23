@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { 
+  FaCode, FaMicrochip, FaLaptopCode, FaTrophy, 
+  FaArrowRight, FaDownload, FaEnvelope, FaBriefcase, 
+  FaCheckCircle, FaStar, FaGlobe, FaChevronLeft, FaChevronRight 
+} from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import Footer from '../components/footer';
 
 const Home = ({ isDark }) => {
+  const navigate = useNavigate();
   const [displayedName, setDisplayedName] = useState('');
   const [nameIndex, setNameIndex] = useState(0);
   const [currentAchievementIndex, setCurrentAchievementIndex] = useState(0);
@@ -9,99 +16,104 @@ const Home = ({ isDark }) => {
   const [homeContent, setHomeContent] = useState({
     hero: {
       title: "Mohammad Rehan",
-      tagline: "Embedded Systems • VLSI • Full-Stack + AI Enthusiast",
-      description: "I build innovative solutions combining hardware and software expertise."
+      tagline: "Full-Stack Web Developer & VLSI System Engineer",
+      description: "Building scalable web applications and digital hardware architectures. Bridging the gap between software performance and hardware design."
     },
     roles: [
       {
-        title: 'Embedded System Developer',
-        desc: 'I build scalable web applications with React, Node.js, and modern AI integrations. Passionate about clean code, smart automation, and solving real-world problems.',
-        icon: 'ES'
+        title: 'Full-Stack Web Development',
+        desc: 'Designing and deploying responsive web applications with React, Node.js, Express, and MongoDB. Focused on clean code, RESTful microservices, and smooth UX.',
+        icon: <FaLaptopCode />
       },
       {
-        title: 'Very Large Scale Integration (VLSI)',
-        desc: 'I design and simulate digital circuits using Verilog & SystemVerilog, deploy to FPGA boards, and optimize RTL flows.',
-        icon: 'VLSI'
+        title: 'VLSI & Digital System Design',
+        desc: 'Architecting digital circuits and FSM logic using Verilog HDL and simulation tools like Xilinx Vivado, LTSpice, and hardware modeling techniques.',
+        icon: <FaMicrochip />
       },
       {
-        title: 'Full-Stack Developer & AI Enthusiast',
-        desc: 'From frontend to backend, I build end-to-end apps and integrate AI tools that bring innovation to life.',
-        icon: 'AI'
+        title: 'Engineering & Software Architecture',
+        desc: 'Writing optimized algorithms, managing version control via Git/GitHub, and engineering hardware-software co-designed solutions.',
+        icon: <FaCode />
       },
     ]
   });
 
-  // 🟢 NEW: Achievements data
   const [achievements, setAchievements] = useState([
     {
-      type: "hackathon",
-      title: "AI Health Monitor",
-      organization: "Tech Hack 2024",
-      achievement: "1st Place Winner",
-      date: "March 2024",
-      description: "Built a real-time health monitoring system using IoT and AI",
-      icon: "1st"
+      type: "project",
+      title: "Full-Stack Portfolio & Admin Suite",
+      organization: "MERN Stack Project",
+      achievement: "Featured Project",
+      date: "2024",
+      description: "Interactive portfolio application built with React, Express, MongoDB, and protected Admin management capabilities.",
+      skills: ["React.js", "Node.js", "Express.js", "MongoDB", "REST API"]
     },
     {
-      type: "internship",
-      title: "Embedded Systems Intern",
-      organization: "TechCorp Solutions", 
-      duration: "Summer 2024",
-      description: "Developed IoT solutions and embedded firmware",
-      skills: ["C++", "Arduino", "IoT Protocols"]
+      type: "hardware",
+      title: "Binary to 7-Segment Decoder & FSM",
+      organization: "VLSI System Design", 
+      date: "2024",
+      description: "RTL design and simulation of a multi-digit hex decoder and finite state machine using Verilog HDL.",
+      skills: ["Verilog HDL", "Vivado", "Digital Logic", "FSM"]
     },
     {
-      type: "course",
-      title: "Advanced VLSI Design",
-      organization: "Coursera",
-      date: "Completed Jan 2024",
-      description: "Mastered digital circuit design and verification",
-      skills: ["Verilog", "Vivado", "FPGA Programming"]
-    },
-    {
-      type: "certification",
-      title: "Full-Stack Development",
-      organization: "Udemy",
-      date: "Completed Dec 2023", 
-      description: "Built full-stack applications with modern frameworks",
-      skills: ["React", "Node.js", "MongoDB"]
+      type: "academic",
+      title: "B.Tech Specialization in Electronics & CS",
+      organization: "Engineering Degree",
+      date: "Ongoing",
+      description: "Specialized coursework in Computer Science, Data Structures, Web Development, and Digital System Architecture.",
+      skills: ["Data Structures", "Algorithms", "C++", "Python"]
     }
   ]);
 
-  useEffect(() => {
+  const loadHomeData = () => {
     const savedContent = localStorage.getItem('portfolioHomeContent');
     if (savedContent) {
       setHomeContent(JSON.parse(savedContent));
     }
 
-    // 🟢 NEW: Load achievements from localStorage
     const savedAchievements = localStorage.getItem('portfolioAchievements');
     if (savedAchievements) {
       setAchievements(JSON.parse(savedAchievements));
     }
+  };
+
+  useEffect(() => {
+    loadHomeData();
+    window.addEventListener('storage', loadHomeData);
+    const interval = setInterval(loadHomeData, 1000);
+
+    return () => {
+      window.removeEventListener('storage', loadHomeData);
+      clearInterval(interval);
+    };
   }, []);
 
   const fullName = homeContent.hero.title;
 
   const theme = {
     dark: {
-      background: '#0D1117',
-      text: '#C9D1D9',
-      accent: '#58A6FF',
-      secondary: '#8B949E',
-      surface: '#161B22',
-      shadow: 'rgba(255,255,255,0.05)',
-      gradient: 'linear-gradient(135deg, #0D1117 0%, #161B22 100%)',
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+      text: '#f8fafc',
+      secondary: '#94a3b8',
+      surface: 'rgba(30, 41, 59, 0.75)',
+      surfaceLight: 'rgba(51, 65, 85, 0.6)',
+      accent: '#3b82f6',
+      accentGlow: '#60a5fa',
+      border: 'rgba(255, 255, 255, 0.08)',
+      shadow: '0 20px 40px rgba(0, 0, 0, 0.35)'
     },
     light: {
-      background: '#F9FAFB',
-      text: '#1F2937',
-      accent: '#3B82F6',
-      secondary: '#6B7280',
-      surface: '#FFFFFF',
-      shadow: 'rgba(0,0,0,0.1)',
-      gradient: 'linear-gradient(135deg, #F9FAFB 0%, #E5E7EB 100%)',
-    },
+      background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+      text: '#1e293b',
+      secondary: '#64748b',
+      surface: 'rgba(255, 255, 255, 0.85)',
+      surfaceLight: 'rgba(241, 245, 249, 0.9)',
+      accent: '#2563eb',
+      accentGlow: '#3b82f6',
+      border: 'rgba(0, 0, 0, 0.08)',
+      shadow: '0 10px 30px rgba(0, 0, 0, 0.1)'
+    }
   }[isDark ? 'dark' : 'light'];
 
   // Typing Effect
@@ -110,492 +122,441 @@ const Home = ({ isDark }) => {
       const timer = setTimeout(() => {
         setDisplayedName(fullName.substring(0, nameIndex + 1));
         setNameIndex(nameIndex + 1);
-      }, 150);
+      }, 120);
       return () => clearTimeout(timer);
     }
   }, [nameIndex, fullName]);
 
-  // 🟢 NEW: Auto-rotate achievements
+  // Auto-rotate achievements
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentAchievementIndex((prevIndex) => 
-        prevIndex === achievements.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 4000); // Rotate every 4 seconds
-
-    return () => clearInterval(interval);
+    if (achievements.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentAchievementIndex((prev) => (prev === achievements.length - 1 ? 0 : prev + 1));
+      }, 5000);
+      return () => clearInterval(interval);
+    }
   }, [achievements.length]);
 
-  useEffect(() => {
-    setDisplayedName('');
-    setNameIndex(0);
-  }, [isDark]);
-
-  // 🟢 NEW: Manual navigation for achievements
   const nextAchievement = () => {
-    setCurrentAchievementIndex(current => 
-      current === achievements.length - 1 ? 0 : current + 1
-    );
+    setCurrentAchievementIndex((current) => (current === achievements.length - 1 ? 0 : current + 1));
   };
 
   const prevAchievement = () => {
-    setCurrentAchievementIndex(current => 
-      current === 0 ? achievements.length - 1 : current - 1
-    );
+    setCurrentAchievementIndex((current) => (current === 0 ? achievements.length - 1 : current - 1));
   };
 
-  const currentAchievement = achievements[currentAchievementIndex];
+  const currentAchievement = achievements[currentAchievementIndex] || achievements[0];
 
   return (
-    <div style={{ ...styles.wrapper, background: theme.gradient, color: theme.text }}>
-      <div style={styles.container}>
+    <div style={{
+      minHeight: '100vh',
+      background: theme.background,
+      color: theme.text,
+      fontFamily: "'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      padding: 0,
+      margin: 0
+    }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 1.5rem' }}>
 
-        {/* Hero Section - UNCHANGED */}
-        <section style={styles.hero}>
-          <div style={styles.heroLeft}>
-            <h1 style={{ ...styles.name, color: theme.text }}>
-              <span style={styles.typingText}>{displayedName}</span>
-              <span style={styles.cursor}>|</span>
+        {/* Status Badge & Official Header Banner */}
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '0.6rem',
+          backgroundColor: 'rgba(16, 185, 129, 0.15)',
+          border: '1px solid rgba(16, 185, 129, 0.3)',
+          color: '#34d399',
+          padding: '0.5rem 1.2rem',
+          borderRadius: '50px',
+          fontSize: '0.88rem',
+          fontWeight: '600',
+          marginBottom: '2rem',
+          backdropFilter: 'blur(10px)'
+        }}>
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#34d399', boxShadow: '0 0 10px #34d399' }}></span>
+          Available for Full-Stack & VLSI Engineering Roles
+        </div>
+
+        {/* Hero Section */}
+        <section style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: '3rem',
+          alignItems: 'center',
+          marginBottom: '4rem'
+        }}>
+          <div>
+            <h1 style={{
+              fontSize: '3.2rem',
+              fontWeight: '800',
+              lineHeight: '1.2',
+              margin: '0 0 1rem 0'
+            }}>
+              Hi, I'm{' '}
+              <span style={{
+                background: 'linear-gradient(90deg, #60a5fa, #34d399)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}>
+                {displayedName}
+              </span>
+              <span style={{ opacity: 0.8, color: theme.accent }}>|</span>
             </h1>
-            <p style={{ ...styles.tagline, color: theme.secondary }}>
+
+            <h2 style={{
+              fontSize: '1.4rem',
+              fontWeight: '600',
+              color: theme.accentGlow,
+              margin: '0 0 1.2rem 0'
+            }}>
               {homeContent.hero.tagline}
-            </p>
-            
-            <p style={{ 
-              ...styles.heroDescription, 
+            </h2>
+
+            <p style={{
+              fontSize: '1.1rem',
+              lineHeight: '1.7',
               color: theme.secondary,
-              marginBottom: '2rem'
+              marginBottom: '2.5rem',
+              maxWidth: '560px'
             }}>
               {homeContent.hero.description}
             </p>
 
-            <div style={styles.buttonContainer}>
-              {['/projects', '/skills', '/contact'].map((href, i) => (
-                <a
-                  key={i}
-                  href={href}
-                  style={{
-                    ...styles.button,
-                    background: `linear-gradient(135deg, ${theme.accent} 0%, ${isDark ? '#1F6FEB' : '#2563EB'})`,
-                    color: '#ffffff',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.transform = 'translateY(-2px)';
-                    e.target.style.boxShadow = `0 6px 12px ${theme.shadow}`;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.transform = 'translateY(0)';
-                    e.target.style.boxShadow = 'none';
-                  }}
-                >
-                  {i === 0 ? 'See My Work' : i === 1 ? 'See My Skills' : 'Hire Me'}
-                </a>
-              ))}
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => navigate('/projects')}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                  padding: '0.85rem 1.8rem',
+                  borderRadius: '12px',
+                  backgroundColor: '#2563eb',
+                  color: 'white',
+                  border: 'none',
+                  fontSize: '1rem',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  boxShadow: '0 10px 25px rgba(37, 99, 235, 0.35)',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                Explore Projects <FaArrowRight />
+              </button>
+
+              <button
+                onClick={() => navigate('/resume')}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                  padding: '0.85rem 1.8rem',
+                  borderRadius: '12px',
+                  backgroundColor: theme.surface,
+                  color: theme.text,
+                  border: `1px solid ${theme.border}`,
+                  fontSize: '1rem',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  backdropFilter: 'blur(10px)'
+                }}
+              >
+                <FaDownload /> View Resume
+              </button>
+
+              <button
+                onClick={() => navigate('/contact')}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.6rem',
+                  padding: '0.85rem 1.8rem',
+                  borderRadius: '12px',
+                  backgroundColor: 'transparent',
+                  color: theme.accentGlow,
+                  border: `1px solid ${theme.accentGlow}`,
+                  fontSize: '1rem',
+                  fontWeight: '600',
+                  cursor: 'pointer'
+                }}
+              >
+                <FaEnvelope /> Contact Me
+              </button>
             </div>
           </div>
 
-          {/* Right Side Full Image - UNCHANGED */}
-          <div
-            style={{
-              ...styles.imageWrapper,
-              backgroundColor: theme.surface,
-              boxShadow: `0 10px 30px ${theme.shadow}`,
-            }}
-          >
-            <img
-              src="WIN_20250324_13_32_53_Pro.jpg"
-              alt="Mohammad Rehan"
-              style={styles.image}
-            />
+          {/* Hero Profile Image / Badge Card */}
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: '380px',
+              borderRadius: '24px',
+              overflow: 'hidden',
+              boxShadow: theme.shadow,
+              border: `1px solid ${theme.border}`,
+              backgroundColor: theme.surface
+            }}>
+              <img
+                src="WIN_20250324_13_32_53_Pro.jpg"
+                alt="Mohammad Rehan"
+                style={{
+                  width: '100%',
+                  height: '420px',
+                  objectFit: 'cover',
+                  display: 'block'
+                }}
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+              <div style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                background: 'linear-gradient(to top, rgba(15, 23, 42, 0.95), transparent)',
+                padding: '1.5rem',
+                color: 'white'
+              }}>
+                <div style={{ fontSize: '1.2rem', fontWeight: '800' }}>Mohammad Rehan</div>
+                <div style={{ fontSize: '0.85rem', color: '#94a3b8', marginTop: '0.2rem' }}>
+                  Full-Stack & VLSI System Engineer
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* Roles Section - UNCHANGED */}
-        <section style={styles.rolesWrapper}>
-          <h2 style={{...styles.sectionTitle, color: theme.text}}>What I Do</h2>
-          <div style={styles.rolesGrid}>
+        {/* Metrics Counter Bar */}
+        <section style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+          gap: '1.5rem',
+          marginBottom: '4rem',
+          backgroundColor: theme.surface,
+          backdropFilter: 'blur(16px)',
+          borderRadius: '20px',
+          padding: '2rem',
+          border: `1px solid ${theme.border}`,
+          boxShadow: theme.shadow
+        }}>
+          {[
+            { number: '10+', label: 'Engineering Projects', icon: <FaLaptopCode color="#60a5fa" /> },
+            { number: '15+', label: 'Technical & VLSI Skills', icon: <FaMicrochip color="#34d399" /> },
+            { number: '100%', label: 'Clean Code Commitment', icon: <FaCheckCircle color="#f59e0b" /> },
+            { number: '24/7', label: 'Open to Inquiries', icon: <FaGlobe color="#a78bfa" /> }
+          ].map((stat, i) => (
+            <div key={i} style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '1.8rem', marginBottom: '0.4rem' }}>{stat.icon}</div>
+              <div style={{ fontSize: '2.2rem', fontWeight: '800', color: theme.text }}>{stat.number}</div>
+              <div style={{ fontSize: '0.85rem', fontWeight: '600', color: theme.secondary, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{stat.label}</div>
+            </div>
+          ))}
+        </section>
+
+        {/* Core Pillars / What I Do Section */}
+        <section style={{ marginBottom: '4.5rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+            <h2 style={{ fontSize: '2.2rem', fontWeight: '800', margin: '0 0 0.5rem 0' }}>Core Specializations</h2>
+            <p style={{ color: theme.secondary, fontSize: '1.05rem', margin: 0 }}>
+              Combining web development expertise with hardware design capabilities
+            </p>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '2rem'
+          }}>
             {homeContent.roles.map((role, i) => (
               <div
                 key={i}
                 style={{
-                  ...styles.roleCard,
                   backgroundColor: theme.surface,
-                  boxShadow: `0 8px 24px ${theme.shadow}`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-5px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
+                  backdropFilter: 'blur(16px)',
+                  borderRadius: '20px',
+                  padding: '2.2rem',
+                  border: `1px solid ${theme.border}`,
+                  boxShadow: theme.shadow,
+                  transition: 'transform 0.3s ease'
                 }}
               >
-                <div style={styles.roleIcon}>{role.icon}</div>
-                <h2 style={{ ...styles.role, color: theme.accent }}>{role.title}</h2>
-                <p style={{ ...styles.description, color: theme.secondary }}>{role.desc}</p>
+                <div style={{
+                  width: '54px',
+                  height: '54px',
+                  borderRadius: '16px',
+                  backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                  color: '#60a5fa',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '1.5rem',
+                  marginBottom: '1.2rem'
+                }}>
+                  {role.icon}
+                </div>
+                <h3 style={{ fontSize: '1.3rem', fontWeight: '700', margin: '0 0 0.8rem 0', color: theme.text }}>
+                  {role.title}
+                </h3>
+                <p style={{ color: theme.secondary, lineHeight: '1.7', fontSize: '0.98rem', margin: 0 }}>
+                  {role.desc}
+                </p>
               </div>
             ))}
           </div>
         </section>
 
-        {/* 🟢 NEW: Achievements Carousel Section */}
-        <section style={styles.achievementsWrapper}>
-          <h2 style={{...styles.sectionTitle, color: theme.text}}>Achievements & Experience</h2>
-          <div style={styles.achievementsContainer}>
-            <div style={styles.carousel}>
-              {/* Navigation Arrows */}
-              <button 
-                style={styles.navButton} 
-                onClick={prevAchievement}
-                onMouseEnter={(e) => e.target.style.backgroundColor = theme.accent + '20'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
-              >
-                ‹
-              </button>
-              
-              {/* Achievement Card */}
-              <div style={{
-                ...styles.achievementCard,
-                backgroundColor: theme.surface,
-                boxShadow: `0 8px 32px ${theme.shadow}`,
-              }}>
-                <div style={styles.achievementHeader}>
-                  <div style={styles.achievementIcon}>
-                    {currentAchievement?.icon}
-                  </div>
-                  <div style={styles.achievementTitle}>
-                    <h3 style={{ margin: 0, color: theme.text }}>{currentAchievement?.title}</h3>
-                    <p style={{ margin: 0, color: theme.accent, fontWeight: '600' }}>
-                      {currentAchievement?.organization}
-                    </p>
-                  </div>
-                </div>
-                
-                <div style={styles.achievementDetails}>
-                  <p style={{ color: theme.text, margin: '0 0 1rem 0', lineHeight: '1.6' }}>
-                    {currentAchievement?.description}
-                  </p>
-                  
-                  <div style={styles.achievementMeta}>
-                    {currentAchievement?.date && (
-                      <span style={styles.metaItem}>Date: {currentAchievement.date}</span>
-                    )}
-                    {currentAchievement?.duration && (
-                      <span style={styles.metaItem}>Duration: {currentAchievement.duration}</span>
-                    )}
-                    {currentAchievement?.achievement && (
-                      <span style={styles.metaItem}>Achievement: {currentAchievement.achievement}</span>
-                    )}
-                  </div>
+        {/* Key Achievements & Credentials Section */}
+        <section style={{ marginBottom: '4.5rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+            <h2 style={{ fontSize: '2.2rem', fontWeight: '800', margin: '0 0 0.5rem 0', display: 'inline-flex', alignItems: 'center', gap: '0.6rem' }}>
+              <FaTrophy color="#f59e0b" /> Credentials & Highlights
+            </h2>
+          </div>
 
-                  {currentAchievement?.skills && (
-                    <div style={styles.skillsContainer}>
-                      {currentAchievement.skills.map((skill, index) => (
-                        <span 
-                          key={index}
-                          style={{
-                            ...styles.skillTag,
-                            backgroundColor: theme.accent + '20',
-                            color: theme.accent,
-                          }}
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
+          <div style={{
+            backgroundColor: theme.surface,
+            backdropFilter: 'blur(16px)',
+            borderRadius: '24px',
+            padding: '2.5rem',
+            border: `1px solid ${theme.border}`,
+            boxShadow: theme.shadow,
+            position: 'relative'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                <span style={{ backgroundColor: 'rgba(245, 158, 11, 0.15)', color: '#f59e0b', padding: '0.3rem 0.8rem', borderRadius: '12px', fontSize: '0.8rem', fontWeight: '700' }}>
+                  {currentAchievement?.achievement || 'Highlight'}
+                </span>
+                <span style={{ color: theme.secondary, fontSize: '0.9rem' }}>{currentAchievement?.date}</span>
               </div>
 
-              <button 
-                style={styles.navButton} 
-                onClick={nextAchievement}
-                onMouseEnter={(e) => e.target.style.backgroundColor = theme.accent + '20'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
-              >
-                ›
-              </button>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <button
+                  onClick={prevAchievement}
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '50%',
+                    border: `1px solid ${theme.border}`,
+                    backgroundColor: theme.surfaceLight,
+                    color: theme.text,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <FaChevronLeft size={12} />
+                </button>
+                <button
+                  onClick={nextAchievement}
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '50%',
+                    border: `1px solid ${theme.border}`,
+                    backgroundColor: theme.surfaceLight,
+                    color: theme.text,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <FaChevronRight size={12} />
+                </button>
+              </div>
             </div>
 
-            {/* Progress Dots */}
-            <div style={styles.progressDots}>
-              {achievements.map((_, index) => (
-                <button
-                  key={index}
-                  style={{
-                    ...styles.progressDot,
-                    backgroundColor: index === currentAchievementIndex ? theme.accent : theme.secondary,
-                  }}
-                  onClick={() => setCurrentAchievementIndex(index)}
-                />
-              ))}
-            </div>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: '800', margin: '0 0 0.4rem 0', color: theme.text }}>
+              {currentAchievement?.title}
+            </h3>
+            <p style={{ color: theme.accentGlow, fontWeight: '600', fontSize: '1rem', margin: '0 0 1rem 0' }}>
+              {currentAchievement?.organization}
+            </p>
+
+            <p style={{ color: theme.secondary, lineHeight: '1.7', fontSize: '1rem', marginBottom: '1.5rem' }}>
+              {currentAchievement?.description}
+            </p>
+
+            {currentAchievement?.skills && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                {currentAchievement.skills.map((skill, idx) => (
+                  <span key={idx} style={{
+                    backgroundColor: 'rgba(59, 130, 246, 0.12)',
+                    color: '#60a5fa',
+                    padding: '0.4rem 0.9rem',
+                    borderRadius: '10px',
+                    fontSize: '0.82rem',
+                    fontWeight: '600',
+                    border: '1px solid rgba(59, 130, 246, 0.2)'
+                  }}>
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 
-        {/* Footer - UNCHANGED */}
+        {/* CTA Banner */}
+        <section style={{
+          background: 'linear-gradient(135deg, #1e3a8a 0%, #1e293b 100%)',
+          borderRadius: '24px',
+          padding: '3rem 2rem',
+          textAlign: 'center',
+          marginBottom: '3rem',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
+          boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)'
+        }}>
+          <h2 style={{ fontSize: '2rem', fontWeight: '800', color: 'white', margin: '0 0 1rem 0' }}>
+            Ready to Collaborate or Hire?
+          </h2>
+          <p style={{ color: '#cbd5e1', fontSize: '1.05rem', maxWidth: '600px', margin: '0 auto 2rem auto', lineHeight: '1.6' }}>
+            Whether you are looking for a Full-Stack MERN Developer or a VLSI System Engineer, feel free to reach out directly.
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => navigate('/contact')}
+              style={{
+                padding: '0.85rem 2rem',
+                borderRadius: '12px',
+                border: 'none',
+                backgroundColor: '#2563eb',
+                color: 'white',
+                fontSize: '1rem',
+                fontWeight: '700',
+                cursor: 'pointer',
+                boxShadow: '0 10px 25px rgba(37, 99, 235, 0.35)'
+              }}
+            >
+              Get In Touch
+            </button>
+            <button
+              onClick={() => navigate('/projects')}
+              style={{
+                padding: '0.85rem 2rem',
+                borderRadius: '12px',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                color: 'white',
+                fontSize: '1rem',
+                fontWeight: '600',
+                cursor: 'pointer'
+              }}
+            >
+              Browse Projects
+            </button>
+          </div>
+        </section>
+
+        {/* Footer */}
         <Footer />
       </div>
     </div>
   );
 };
-
-const styles = {
-  wrapper: {
-    minHeight: '100vh',
-    width: '100%',
-    fontFamily: "'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-    padding: 0,
-    margin: 0,
-    transition: 'all 0.3s ease',
-  },
-  container: {
-    width: '100%',
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '3rem 1.5rem',
-    boxSizing: 'border-box',
-  },
-  hero: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    alignItems: 'center',
-    gap: '3rem',
-    marginBottom: '5rem',
-    minHeight: '80vh',
-  },
-  heroLeft: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    textAlign: 'left',
-  },
-  name: {
-    fontSize: '3.5rem',
-    fontWeight: '800',
-    marginBottom: '0.5rem',
-    minHeight: '4.5rem',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  typingText: {
-    background: 'linear-gradient(135deg, #58A6FF 0%, #3B82F6 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
-  },
-  cursor: {
-    animation: 'blink 1s infinite',
-    color: '#58A6FF',
-    marginLeft: '2px',
-  },
-  tagline: {
-    fontSize: '1.4rem',
-    marginBottom: '1rem',
-    lineHeight: '1.6',
-  },
-  heroDescription: {
-    fontSize: '1.1rem',
-    lineHeight: '1.6',
-    maxWidth: '600px',
-    marginBottom: '2rem',
-  },
-  imageWrapper: {
-    width: '100%',
-    maxWidth: '500px',
-    height: '500px',
-    borderRadius: '16px',
-    overflow: 'hidden',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    transition: 'all 0.3s ease',
-    justifySelf: 'center',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
-    display: 'block',
-    borderRadius: '16px',
-    transition: 'all 0.3s ease',
-  },
-  buttonContainer: {
-    display: 'flex',
-    gap: '1rem',
-    flexWrap: 'wrap',
-    marginTop: '1rem',
-  },
-  button: {
-    padding: '14px 28px',
-    borderRadius: '10px',
-    fontWeight: '600',
-    fontSize: '1rem',
-    textDecoration: 'none',
-    transition: 'all 0.3s ease',
-    boxShadow: 'none',
-  },
-  rolesWrapper: {
-    marginTop: '5rem',
-    padding: '2rem 0',
-  },
-  sectionTitle: {
-    fontSize: '2.5rem',
-    fontWeight: '700',
-    textAlign: 'center',
-    marginBottom: '3rem',
-  },
-  rolesGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-    gap: '2.5rem',
-  },
-  roleCard: {
-    borderRadius: '16px',
-    padding: '2rem',
-    textAlign: 'center',
-    transition: 'all 0.3s ease',
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  roleIcon: {
-    fontSize: '1.5rem',
-    marginBottom: '1.5rem',
-    fontWeight: '700',
-    color: '#58A6FF',
-  },
-  role: {
-    fontSize: '1.5rem',
-    fontWeight: '700',
-    marginBottom: '1rem',
-  },
-  description: {
-    fontSize: '1.1rem',
-    lineHeight: '1.6',
-  },
-
-  // 🟢 NEW: Achievements Styles
-  achievementsWrapper: {
-    marginTop: '5rem',
-    padding: '2rem 0',
-  },
-  achievementsContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: '2rem',
-  },
-  carousel: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '1.5rem',
-    width: '100%',
-    maxWidth: '800px',
-  },
-  navButton: {
-    background: 'transparent',
-    border: 'none',
-    fontSize: '2rem',
-    color: 'inherit',
-    cursor: 'pointer',
-    padding: '0.5rem 1rem',
-    borderRadius: '8px',
-    transition: 'all 0.3s ease',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '50px',
-    height: '50px',
-  },
-  achievementCard: {
-    flex: 1,
-    borderRadius: '16px',
-    padding: '2rem',
-    transition: 'all 0.5s ease',
-    minHeight: '300px',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  achievementHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '1rem',
-    marginBottom: '1.5rem',
-  },
-  achievementIcon: {
-    fontSize: '1.5rem',
-    fontWeight: '700',
-    backgroundColor: '#58A6FF20',
-    color: '#58A6FF',
-    padding: '0.8rem',
-    borderRadius: '8px',
-    minWidth: '60px',
-    textAlign: 'center',
-  },
-  achievementTitle: {
-    flex: 1,
-  },
-  achievementDetails: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-  achievementMeta: {
-    display: 'flex',
-    gap: '1rem',
-    flexWrap: 'wrap',
-    marginBottom: '1rem',
-  },
-  metaItem: {
-    fontSize: '0.9rem',
-    padding: '0.4rem 0.8rem',
-    borderRadius: '12px',
-    background: 'rgba(0,0,0,0.1)',
-  },
-  skillsContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '0.5rem',
-  },
-  skillTag: {
-    padding: '0.4rem 0.8rem',
-    borderRadius: '20px',
-    fontSize: '0.8rem',
-    fontWeight: '500',
-  },
-  progressDots: {
-    display: 'flex',
-    gap: '0.5rem',
-  },
-  progressDot: {
-    width: '12px',
-    height: '12px',
-    borderRadius: '50%',
-    border: 'none',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-  },
-};
-
-// Add Inter font and blink animation
-const addStyles = () => {
-  const fontLink = document.createElement('link');
-  fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap';
-  fontLink.rel = 'stylesheet';
-  document.head.appendChild(fontLink);
-  
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-  `;
-  document.head.appendChild(style);
-};
-
-addStyles();
 
 export default Home;

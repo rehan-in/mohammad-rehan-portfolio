@@ -78,9 +78,7 @@ const Skills = () => {
       
       // VLSI
       languages: 'Technical Languages',
-      tools: 'Tools',
       concepts: 'Concepts',
-      problemsolving: 'Problem Solving',
       
       // Soft Skills
       communication: 'Communication',
@@ -94,141 +92,14 @@ const Skills = () => {
     return labels[subcategory] || subcategory;
   };
 
-  // Fallback hard-coded skills (EXACT SAME AS BEFORE)
-  const getFallbackSkills = () => {
-    if (activeCategory === 'technical') {
-      return [
-        {
-          title: 'Frontend',
-          skills: [
-            {
-              list: [
-                'HTML',
-                'CSS',
-                'JavaScript',
-                'React',
-                'Tailwind CSS',
-                'Bootstrap',
-              ]
-            },
-          ],
-        },
-        {
-          title: 'Backend',
-          skills: [
-            {
-              list: [
-                'Node.js',
-                'Express.js',
-                'MongoDB',
-                'RESTful APIs',
-              ]
-            },
-          ],
-        },
-        {
-          title: 'Tools',
-          skills: [
-            {
-              list: [
-                'Postman',
-                'Git',
-                'GitHub',
-                'VS Code',
-              ]
-            },
-          ],
-        },
-      ];
-    } else if (activeCategory === 'vlsi') {
-      return [
-        {
-          title: 'Technical Languages',
-          skills: [
-            {
-              list: [
-                'Verilog',
-                'SystemVerilog',
-                'Python',
-              ]
-            },
-          ]
-        },
-        {
-          title: 'Tools',
-          skills: [
-            {
-              list: [
-                'Vivado',
-                'LTSpice',
-                'MATLAB',
-                'Microwind31',
-                'Circuit Varse',
-              ]
-            },
-          ]
-        },
-        {
-          title: 'Concepts',
-          skills: [
-            {
-              list: [
-                'Digital Logic & Computer Design',
-                'CMOS',
-                'Digital Electronics',
-                'IC Design',
-                'Hardware Modeling',
-                'UVM concepts',
-              ]
-            },
-          ]
-        },
-        {
-          title: 'Problem Solving',
-          skills: [
-            {
-              list: [
-                'HDL Bits',
-                'LeetCode',
-                'Hackerrank',
-              ]
-            },
-          ]
-        }
-      ];
-    } else {
-      return [
-        {
-          title: 'Soft Skills',
-          skills: [
-            {
-              list: [
-                'Effective Communication',
-                'Team Collaboration',
-                'Problem Solving',
-                'Time Management',
-                'Adaptability',
-                'Critical Thinking',
-                'Creativity',
-                'Leadership',
-              ]
-            },
-          ],
-        }
-      ];
-    }
-  };
-
   const getCurrentSkills = () => {
-    // Use admin skills if available for the current category
     if (adminSkills.length > 0) {
       const categorySkills = adminSkills.filter(skill => skill.category === activeCategory);
       if (categorySkills.length > 0) {
-        const convertedSkills = convertAdminSkillsToFormat();
-        return convertedSkills.length > 0 ? convertedSkills : getFallbackSkills();
+        return convertAdminSkillsToFormat();
       }
     }
-    return getFallbackSkills();
+    return [];
   };
 
   const getCategoryTitle = () => {

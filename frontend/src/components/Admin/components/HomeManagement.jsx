@@ -208,19 +208,6 @@ const HomeManagement = ({ styles, theme }) => {
     setIsEditingAchievement(false);
   };
 
-  const getAchievementIcon = (iconName) => {
-    const iconMap = {
-      'FaTrophy': FaTrophy,
-      'FaBriefcase': FaBriefcase,
-      'FaGraduationCap': FaGraduationCap,
-      'FaCertificate': FaCertificate,
-      'FaAward': FaAward,
-      'FaLightbulb': FaLightbulb
-    };
-    const IconComponent = iconMap[iconName] || FaTrophy;
-    return <IconComponent />;
-  };
-
   const getIconComponent = (iconName) => {
     const iconMap = {
       'FaMicrochip': FaMicrochip,

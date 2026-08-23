@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Picker from 'emoji-picker-react';
 import { useSpeechRecognition } from 'react-speech-recognition';
 
@@ -215,37 +214,39 @@ const ChatBot = () => {
     setMessages((prev) => [...prev, userMsg]);
     setIsLoading(true);
 
+    let botResponse = '';
     try {
-      // First try the AI knowledge base
-      let botResponse = findBestResponse(input);
-      
-      // If using external API (optional - uncomment if you have backend)
-      /*
-      const res = await axios.post('http://localhost:5000/api/chat', { message: input });
-      botResponse = res.data.reply;
-      */
-      
-      const botMsg = {
-        from: 'bot',
-        text: botResponse,
-        time: new Date().toLocaleTimeString(),
-      };
-      
-      setTimeout(() => {
-        setMessages((prev) => [...prev, botMsg]);
-        setIsLoading(false);
-        speak(botResponse);
-      }, 1000);
+      const res = await fetch('http://localhost:5000/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: input }),
+      });
 
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.reply) {
+          botResponse = data.reply;
+        }
+      }
     } catch {
-      const errorMsg = {
-        from: 'bot',
-        text: 'Sorry, there was an error processing your request.',
-        time: new Date().toLocaleTimeString(),
-      };
-      setMessages((prev) => [...prev, errorMsg]);
-      setIsLoading(false);
+      console.warn('Backend API connection error, falling back to local knowledge base.');
     }
+
+    if (!botResponse) {
+      botResponse = findBestResponse(input);
+    }
+
+    const botMsg = {
+      from: 'bot',
+      text: botResponse,
+      time: new Date().toLocaleTimeString(),
+    };
+
+    setMessages((prev) => [...prev, botMsg]);
+    setIsLoading(false);
+    speak(botResponse);
 
     setInput('');
     setShowEmojiPicker(false);

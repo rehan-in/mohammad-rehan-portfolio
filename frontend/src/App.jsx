@@ -5,7 +5,6 @@ import Home from './pages/Home';
 import Projects from './pages/Projects';
 import Education from './pages/Education';
 import Contact from './pages/Contact';
-import ChatBot from './pages/ChatBot';
 import Skills from './pages/skills';
 import Feedback from './pages/FeedBack';
 import Resume from './pages/Resume';
@@ -13,7 +12,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ImageSlider from './components/ImageSlider';
 import ResetPassword from './pages/ResetPassword';
-import ForgotPassword from './pages/ResetPassword';
+import ForgotPassword from './pages/ForgotPassword';
 import Admin from './pages/Admin';
 
 
@@ -27,7 +26,6 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/education" element={<Education />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/chatbot" element={<ChatBot />} />
           <Route path="/skills" element={<Skills />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/resume" element={<Resume />} />

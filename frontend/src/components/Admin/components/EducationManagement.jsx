@@ -268,7 +268,7 @@ const EducationManagement = ({ styles, theme }) => {
               zIndex: 1
             }}></div>
 
-            {education.map((edu, index) => (
+            {education.map((edu) => (
               <div key={edu.id} style={{
                 display: 'flex',
                 gap: '2rem',

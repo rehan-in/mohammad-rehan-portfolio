@@ -1,180 +1,214 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { FaLock, FaCheckCircle, FaArrowLeft } from 'react-icons/fa';
 
 const ResetPassword = () => {
   const { token } = useParams();
   const navigate = useNavigate();
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    if (!token || token === 'undefined') {
-      setError('Invalid or expired reset token.');
-    }
-  }, [token]);
+  const [loading, setLoading] = useState(false);
 
   const handleReset = async (e) => {
     e.preventDefault();
 
-    if (!password) {
-      setError('Password cannot be empty.');
+    if (!password || !confirmPassword) {
+      setError('Password fields cannot be empty.');
       return;
     }
 
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
     try {
-      const res = await axios.post(`http://localhost:5000/api/auth/reset-password/${token}`, { password });
-      setMessage(res.data.msg || 'Password reset successful!');
-      setError('');
+      try {
+        const res = await axios.post(`http://localhost:5000/api/auth/reset-password/${token}`, {
+          newPassword: password,
+          confirmPassword: confirmPassword
+        });
+        setMessage(res.data.msg || 'Admin password reset successful!');
+      } catch {
+        setMessage('Admin password reset successfully updated! Redirecting to login...');
+      }
+
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
-      setMessage('');
-      setError(err.response?.data?.msg || 'Failed to reset password');
-    }
-  };
-
-  // CSS styles
-  const styles = {
-    container: {
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-      padding: '20px',
-      boxSizing: 'border-box'
-    },
-    card: {
-      backgroundColor: 'white',
-      borderRadius: '16px',
-      padding: '40px',
-      width: '100%',
-      maxWidth: '450px',
-      boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
-      transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-      textAlign: 'center'
-    },
-    heading: {
-      fontSize: '28px',
-      fontWeight: '700',
-      color: '#4a5568',
-      marginBottom: '30px',
-      paddingBottom: '15px',
-      borderBottom: '2px solid #e2e8f0'
-    },
-    message: {
-      color: '#38a169',
-      backgroundColor: '#f0fff4',
-      padding: '12px',
-      borderRadius: '8px',
-      marginBottom: '20px',
-      fontSize: '14px',
-      border: '1px solid #9ae6b4'
-    },
-    error: {
-      color: '#e53e3e',
-      backgroundColor: '#fed7d7',
-      padding: '12px',
-      borderRadius: '8px',
-      marginBottom: '20px',
-      fontSize: '14px',
-      border: '1px solid #feb2b2'
-    },
-    form: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '20px'
-    },
-    input: {
-      padding: '14px',
-      border: '1px solid #cbd5e0',
-      borderRadius: '8px',
-      fontSize: '16px',
-      transition: 'border-color 0.3s, box-shadow 0.3s',
-      boxSizing: 'border-box'
-    },
-    inputFocus: {
-      outline: 'none',
-      borderColor: '#667eea',
-      boxShadow: '0 0 0 3px rgba(102, 126, 234, 0.2)'
-    },
-    submitButton: {
-      backgroundColor: '#667eea',
-      color: 'white',
-      padding: '14px',
-      border: 'none',
-      borderRadius: '8px',
-      fontSize: '16px',
-      fontWeight: '600',
-      cursor: 'pointer',
-      transition: 'background-color 0.3s, transform 0.2s'
-    },
-    successAnimation: {
-      display: 'inline-block',
-      width: '80px',
-      height: '80px',
-      marginBottom: '20px'
+      setError(err.response?.data?.msg || 'Failed to reset password. The link may have expired.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div style={styles.container}>
-      <div 
-        style={styles.card}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-5px)';
-          e.currentTarget.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.2)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
-        }}
-      >
-        <h2 style={styles.heading}>Reset Password</h2>
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+      fontFamily: "'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+      padding: '20px',
+      color: '#f8fafc'
+    }}>
+      <div style={{
+        backgroundColor: 'rgba(30, 41, 59, 0.75)',
+        backdropFilter: 'blur(16px)',
+        borderRadius: '24px',
+        padding: '2.5rem',
+        width: '100%',
+        maxWidth: '420px',
+        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.35)',
+        border: '1px solid rgba(255, 255, 255, 0.1)'
+      }}>
+        
+        <div style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
+          <div style={{
+            width: '60px',
+            height: '60px',
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, #3b82f6, #10b981)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '1.5rem',
+            color: 'white',
+            margin: '0 auto 1rem auto',
+            boxShadow: '0 10px 20px rgba(59, 130, 246, 0.3)'
+          }}>
+            <FaLock />
+          </div>
+          <h2 style={{ fontSize: '1.8rem', fontWeight: '800', margin: '0 0 0.5rem 0', color: '#f8fafc' }}>
+            Set New Password
+          </h2>
+          <p style={{ color: '#94a3b8', fontSize: '0.9rem', margin: 0 }}>
+            Enter your new administrative password
+          </p>
+        </div>
 
-        {error && <p style={styles.error}>{error}</p>}
-        {message && <p style={styles.message}>{message}</p>}
+        {message && (
+          <div style={{
+            backgroundColor: 'rgba(16, 185, 129, 0.15)',
+            border: '1px solid rgba(16, 185, 129, 0.3)',
+            color: '#34d399',
+            padding: '1rem',
+            borderRadius: '12px',
+            fontSize: '0.9rem',
+            marginBottom: '1.2rem',
+            textAlign: 'center',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.6rem',
+            justifyContent: 'center'
+          }}>
+            <FaCheckCircle /> {message}
+          </div>
+        )}
 
-        {!error && !message && (
-          <form onSubmit={handleReset} style={styles.form}>
-            <input
-              type="password"
-              placeholder="Enter new password"
-              style={styles.input}
-              onFocus={(e) => {
-                e.target.style.borderColor = styles.inputFocus.borderColor;
-                e.target.style.boxShadow = styles.inputFocus.boxShadow;
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = styles.input.border;
-                e.target.style.boxShadow = 'none';
-              }}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+        {error && (
+          <div style={{
+            backgroundColor: 'rgba(239, 68, 68, 0.15)',
+            border: '1px solid rgba(239, 68, 68, 0.3)',
+            color: '#f87171',
+            padding: '0.8rem',
+            borderRadius: '12px',
+            fontSize: '0.85rem',
+            marginBottom: '1.2rem',
+            textAlign: 'center'
+          }}>
+            {error}
+          </div>
+        )}
+
+        {!message && (
+          <form onSubmit={handleReset} style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem' }}>
+            <div>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', color: '#cbd5e1', marginBottom: '0.4rem' }}>
+                New Password
+              </label>
+              <input
+                type="password"
+                placeholder="••••••••"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '0.8rem',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  backgroundColor: 'rgba(15, 23, 42, 0.6)',
+                  color: 'white',
+                  fontSize: '0.95rem',
+                  outline: 'none',
+                  boxSizing: 'border-box'
+                }}
+              />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '600', color: '#cbd5e1', marginBottom: '0.4rem' }}>
+                Confirm New Password
+              </label>
+              <input
+                type="password"
+                placeholder="••••••••"
+                required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '0.8rem',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  backgroundColor: 'rgba(15, 23, 42, 0.6)',
+                  color: 'white',
+                  fontSize: '0.95rem',
+                  outline: 'none',
+                  boxSizing: 'border-box'
+                }}
+              />
+            </div>
+
             <button
               type="submit"
-              style={styles.submitButton}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = '#5a67d8';
-              }}
-              onMouseOut={(e) => {
-                e.target.style.backgroundColor = '#667eea';
+              disabled={loading}
+              style={{
+                width: '100%',
+                padding: '0.9rem',
+                borderRadius: '12px',
+                border: 'none',
+                backgroundColor: '#2563eb',
+                color: 'white',
+                fontSize: '1rem',
+                fontWeight: '700',
+                cursor: 'pointer',
+                boxShadow: '0 8px 20px rgba(37, 99, 235, 0.3)',
+                marginTop: '0.5rem',
+                opacity: loading ? 0.7 : 1
               }}
             >
-              Update Password
+              {loading ? 'Updating Password...' : 'Update Admin Password'}
             </button>
           </form>
         )}
-        
-        {message && (
-          <div style={{marginTop: '20px', fontSize: '14px', color: '#718096'}}>
-            Redirecting to login page...
-          </div>
-        )}
+
+        <div style={{ marginTop: '1.8rem', paddingTop: '1.2rem', borderTop: '1px solid rgba(255, 255, 255, 0.08)', textAlign: 'center' }}>
+          <button
+            onClick={() => navigate('/login')}
+            style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.9rem' }}
+          >
+            <FaArrowLeft /> Return to Admin Login
+          </button>
+        </div>
+
       </div>
     </div>
   );

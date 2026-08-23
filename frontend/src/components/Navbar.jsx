@@ -40,7 +40,7 @@ const Navbar = () => {
 
         {/* Center Nav Links - Desktop */}
         <div style={styles.navLinks}>
-          {['Home', 'Projects', 'Skills', 'Education', 'Resume', 'Feedback', 'Contact', 'ChatBot', 'Admin'].map((item) => (
+          {['Home', 'Projects', 'Skills', 'Education', 'Resume', 'Feedback', 'Contact', 'Admin'].map((item) => (
             <Link
               key={item}
               to={`/${item === 'Home' ? '' : item.toLowerCase()}`}
@@ -86,7 +86,7 @@ const Navbar = () => {
         {/* Mobile Menu - shown when toggled */}
         {isMobileMenuOpen && (
           <div style={{...styles.mobileMenu, backgroundColor: theme.mobileMenuBg}}>
-            {['Home', 'Projects', 'Skills', 'Education', 'Resume', 'Feedback', 'Contact', 'ChatBot'].map((item) => (
+            {['Home', 'Projects', 'Skills', 'Education', 'Resume', 'Feedback', 'Contact'].map((item) => (
               <Link
                 key={item}
                 to={`/${item === 'Home' ? '' : item.toLowerCase()}`}

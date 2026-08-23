@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { 
   FaHome, FaProjectDiagram, FaCode, FaGraduationCap, 
-  FaFilePdf, FaComments, FaEnvelope, FaRobot, 
-  FaChartBar, FaCog, FaSignOutAlt, FaUser 
+  FaFilePdf, FaComments, FaEnvelope, 
+  FaChartBar, FaCog, FaSignOutAlt, FaUserCheck 
 } from 'react-icons/fa';
 
-// Import monitoring components
+// Import management views
 import DashboardView from './components/DashboardView';
 import HomeManagement from './components/HomeManagement';
 import ProjectsManagement from './components/ProjectsManagement';
@@ -14,7 +14,6 @@ import EducationManagement from './components/EducationManagement';
 import ResumeMonitoring from './components/ResumeMonitoring';
 import FeedbackManagement from './components/FeedbackManagement';
 import ContactManagement from './components/ContactManagement';
-import ChatBotManagement from './components/ChatBotManagement';
 import SettingsManagement from './components/SettingsManagement';
 
 const AdminDashboard = () => {
@@ -33,12 +32,10 @@ const AdminDashboard = () => {
     resumeDownloads: 0
   });
 
-  // Save theme preference
   useEffect(() => {
     localStorage.setItem('adminDarkMode', JSON.stringify(darkMode));
   }, [darkMode]);
 
-  // Load statistics
   useEffect(() => {
     loadStats();
   }, []);
@@ -67,35 +64,35 @@ const AdminDashboard = () => {
 
   const theme = {
     dark: {
-      background: '#0f172a',
-      surface: '#1e293b',
-      surfaceLight: '#334155',
+      background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+      surface: 'rgba(30, 41, 59, 0.75)',
+      surfaceLight: 'rgba(51, 65, 85, 0.6)',
       text: '#f8fafc',
-      textSecondary: '#cbd5e1',
+      textSecondary: '#94a3b8',
       accent: '#3b82f6',
       success: '#10b981',
       warning: '#f59e0b',
       error: '#ef4444',
-      border: '#374151'
+      border: 'rgba(255, 255, 255, 0.08)'
     },
     light: {
-      background: '#f8fafc',
-      surface: '#ffffff',
-      surfaceLight: '#f1f5f9',
+      background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+      surface: 'rgba(255, 255, 255, 0.85)',
+      surfaceLight: 'rgba(241, 245, 249, 0.9)',
       text: '#1e293b',
       textSecondary: '#64748b',
       accent: '#2563eb',
       success: '#059669',
       warning: '#d97706',
       error: '#dc2626',
-      border: '#e5e7eb'
+      border: 'rgba(0, 0, 0, 0.08)'
     }
   }[darkMode ? 'dark' : 'light'];
 
   const styles = {
     container: {
       minHeight: '100vh',
-      backgroundColor: theme.background,
+      background: theme.background,
       color: theme.text,
       fontFamily: "'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
       display: 'flex'
@@ -103,89 +100,96 @@ const AdminDashboard = () => {
     sidebar: {
       width: '280px',
       backgroundColor: theme.surface,
-      padding: '1.5rem 1rem',
+      backdropFilter: 'blur(16px)',
+      padding: '2rem 1.2rem',
       borderRight: `1px solid ${theme.border}`,
       display: 'flex',
       flexDirection: 'column',
       position: 'fixed',
       height: '100vh',
-      overflowY: 'auto'
+      overflowY: 'auto',
+      zIndex: 50
     },
     main: {
       flex: 1,
-      padding: '2rem',
+      padding: '2.5rem',
       marginLeft: '280px',
       minHeight: '100vh'
     },
     logo: {
-      fontSize: '1.5rem',
-      fontWeight: 'bold',
+      fontSize: '1.4rem',
+      fontWeight: '800',
       display: 'flex',
       alignItems: 'center',
-      gap: '0.5rem',
-      marginBottom: '2rem',
-      color: theme.accent
+      gap: '0.75rem',
+      marginBottom: '2.5rem',
+      background: 'linear-gradient(90deg, #60a5fa, #34d399)',
+      WebkitBackgroundClip: 'text',
+      WebkitTextFillColor: 'transparent'
     },
     navItem: {
       display: 'flex',
       alignItems: 'center',
-      gap: '0.75rem',
-      padding: '0.75rem 1rem',
-      borderRadius: '8px',
+      gap: '0.85rem',
+      padding: '0.85rem 1.2rem',
+      borderRadius: '14px',
       cursor: 'pointer',
       marginBottom: '0.5rem',
-      transition: 'all 0.2s ease',
+      transition: 'all 0.25 ease',
       backgroundColor: 'transparent',
       color: theme.textSecondary,
       border: 'none',
       width: '100%',
       textAlign: 'left',
-      fontSize: '0.95rem'
+      fontSize: '0.95rem',
+      fontWeight: '600'
     },
     navItemActive: {
       backgroundColor: theme.accent,
-      color: '#ffffff'
+      color: '#ffffff',
+      boxShadow: '0 8px 20px rgba(59, 130, 246, 0.35)'
     },
     userSection: {
-      padding: '1rem 0',
+      paddingTop: '1.5rem',
       borderTop: `1px solid ${theme.border}`,
       marginTop: 'auto'
     },
     userInfo: {
       display: 'flex',
       alignItems: 'center',
-      gap: '0.75rem',
-      marginBottom: '1rem'
+      gap: '0.85rem',
+      marginBottom: '1.2rem'
     },
     userAvatar: {
-      width: '40px',
-      height: '40px',
+      width: '42px',
+      height: '42px',
       borderRadius: '50%',
-      backgroundColor: theme.accent,
+      background: 'linear-gradient(135deg, #3b82f6, #10b981)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       color: 'white',
-      fontWeight: 'bold',
-      fontSize: '0.9rem'
+      fontSize: '1.1rem',
+      boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)'
     },
     button: {
-      padding: '0.75rem 1rem',
-      borderRadius: '8px',
+      padding: '0.8rem 1rem',
+      borderRadius: '12px',
       border: 'none',
       cursor: 'pointer',
-      fontSize: '0.875rem',
-      fontWeight: '500',
+      fontSize: '0.9rem',
+      fontWeight: '600',
       transition: 'all 0.2s ease',
       display: 'flex',
       alignItems: 'center',
-      gap: '0.5rem',
+      gap: '0.6rem',
       width: '100%',
       justifyContent: 'center'
     },
     buttonSecondary: {
       backgroundColor: theme.surfaceLight,
-      color: theme.text
+      color: theme.text,
+      border: `1px solid ${theme.border}`
     }
   };
 
@@ -198,9 +202,14 @@ const AdminDashboard = () => {
     { id: 'resume', label: 'Resume', icon: <FaFilePdf /> },
     { id: 'feedback', label: 'Feedback', icon: <FaComments /> },
     { id: 'contact', label: 'Contact', icon: <FaEnvelope /> },
-    { id: 'chatbot', label: 'ChatBot', icon: <FaRobot /> },
     { id: 'settings', label: 'Settings', icon: <FaCog /> }
   ];
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    sessionStorage.removeItem('authToken');
+    window.location.href = '/login';
+  };
 
   const renderContent = () => {
     const components = {
@@ -212,7 +221,6 @@ const AdminDashboard = () => {
       resume: <ResumeMonitoring styles={getContentStyles()} theme={theme} />,
       feedback: <FeedbackManagement styles={getContentStyles()} theme={theme} />,
       contact: <ContactManagement styles={getContentStyles()} theme={theme} />,
-      chatbot: <ChatBotManagement styles={getContentStyles()} theme={theme} />,
       settings: <SettingsManagement styles={getContentStyles()} theme={theme} onThemeChange={() => setDarkMode(!darkMode)} darkMode={darkMode} />
     };
     return components[activeTab] || components.dashboard;
@@ -222,28 +230,29 @@ const AdminDashboard = () => {
     return {
       card: {
         backgroundColor: theme.surface,
-        borderRadius: '12px',
-        padding: '1.5rem',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        backdropFilter: 'blur(16px)',
+        borderRadius: '20px',
+        padding: '1.8rem',
+        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
         border: `1px solid ${theme.border}`,
-        marginBottom: '1.5rem'
+        marginBottom: '1.8rem'
       },
       grid: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
         gap: '1.5rem',
         marginBottom: '2rem'
       },
       statCard: {
         display: 'flex',
         alignItems: 'center',
-        gap: '1rem',
-        padding: '1.5rem'
+        gap: '1.2rem',
+        padding: '1.6rem'
       },
       statIcon: {
-        width: '60px',
-        height: '60px',
-        borderRadius: '12px',
+        width: '56px',
+        height: '56px',
+        borderRadius: '16px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -253,23 +262,24 @@ const AdminDashboard = () => {
         flex: 1
       },
       statNumber: {
-        fontSize: '2rem',
-        fontWeight: 'bold',
-        marginBottom: '0.25rem'
+        fontSize: '2.2rem',
+        fontWeight: '800',
+        marginBottom: '0.2rem'
       },
       statLabel: {
         color: theme.textSecondary,
-        fontSize: '0.9rem',
+        fontSize: '0.85rem',
+        fontWeight: '600',
         textTransform: 'uppercase',
         letterSpacing: '0.05em'
       },
       sectionTitle: {
-        fontSize: '1.5rem',
-        fontWeight: 'bold',
+        fontSize: '1.8rem',
+        fontWeight: '800',
         marginBottom: '1.5rem',
         display: 'flex',
         alignItems: 'center',
-        gap: '0.5rem'
+        gap: '0.6rem'
       },
       table: {
         width: '100%',
@@ -285,12 +295,12 @@ const AdminDashboard = () => {
         borderBottom: `1px solid ${theme.border}`
       },
       button: {
-        padding: '0.5rem 1rem',
-        borderRadius: '6px',
+        padding: '0.7rem 1.2rem',
+        borderRadius: '10px',
         border: 'none',
         cursor: 'pointer',
-        fontSize: '0.875rem',
-        fontWeight: '500',
+        fontSize: '0.9rem',
+        fontWeight: '600',
         transition: 'all 0.2s ease',
         display: 'flex',
         alignItems: 'center',
@@ -318,24 +328,24 @@ const AdminDashboard = () => {
       label: {
         display: 'block',
         marginBottom: '0.5rem',
-        fontWeight: '500',
+        fontWeight: '600',
         color: theme.text
       },
       input: {
         width: '100%',
-        padding: '0.75rem',
-        borderRadius: '6px',
+        padding: '0.8rem',
+        borderRadius: '10px',
         border: `1px solid ${theme.border}`,
-        backgroundColor: theme.background,
+        backgroundColor: theme.surfaceLight,
         color: theme.text,
         fontSize: '1rem'
       },
       textarea: {
         width: '100%',
-        padding: '0.75rem',
-        borderRadius: '6px',
+        padding: '0.8rem',
+        borderRadius: '10px',
         border: `1px solid ${theme.border}`,
-        backgroundColor: theme.background,
+        backgroundColor: theme.surfaceLight,
         color: theme.text,
         fontSize: '1rem',
         minHeight: '120px',
@@ -343,30 +353,30 @@ const AdminDashboard = () => {
       },
       select: {
         width: '100%',
-        padding: '0.75rem',
-        borderRadius: '6px',
+        padding: '0.8rem',
+        borderRadius: '10px',
         border: `1px solid ${theme.border}`,
-        backgroundColor: theme.background,
+        backgroundColor: theme.surfaceLight,
         color: theme.text,
         fontSize: '1rem'
       },
       badge: {
-        padding: '0.25rem 0.75rem',
+        padding: '0.3rem 0.8rem',
         borderRadius: '20px',
         fontSize: '0.75rem',
-        fontWeight: '500'
+        fontWeight: '600'
       },
       badgeSuccess: {
-        backgroundColor: '#dcfce7',
-        color: '#166534'
+        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+        color: '#34d399'
       },
       badgeWarning: {
-        backgroundColor: '#fef3c7',
-        color: '#92400e'
+        backgroundColor: 'rgba(245, 158, 11, 0.2)',
+        color: '#fbbf24'
       },
       badgeError: {
-        backgroundColor: '#fee2e2',
-        color: '#991b1b'
+        backgroundColor: 'rgba(239, 68, 68, 0.2)',
+        color: '#f87171'
       }
     };
   };
@@ -376,7 +386,7 @@ const AdminDashboard = () => {
       {/* Sidebar */}
       <div style={styles.sidebar}>
         <div style={styles.logo}>
-          <FaCog /> Admin Panel
+          <FaCog /> Admin Portal
         </div>
         
         <nav style={{ flex: 1 }}>
@@ -399,11 +409,11 @@ const AdminDashboard = () => {
         <div style={styles.userSection}>
           <div style={styles.userInfo}>
             <div style={styles.userAvatar}>
-              <FaUser />
+              <FaUserCheck />
             </div>
             <div>
-              <div style={{ fontWeight: '600', fontSize: '0.9rem' }}>Mohammad Rehan</div>
-              <div style={{ fontSize: '0.75rem', color: theme.textSecondary }}>Super Admin</div>
+              <div style={{ fontWeight: '700', fontSize: '0.95rem' }}>Mohammad Rehan</div>
+              <div style={{ fontSize: '0.75rem', color: theme.textSecondary }}>System Administrator</div>
             </div>
           </div>
           
@@ -412,25 +422,27 @@ const AdminDashboard = () => {
             style={{
               ...styles.button,
               ...styles.buttonSecondary,
-              marginBottom: '0.5rem'
+              marginBottom: '0.6rem'
             }}
           >
-            {darkMode ? '🌞 Light Mode' : '🌙 Dark Mode'}
+            {darkMode ? '🌞 Light Theme' : '🌙 Dark Theme'}
           </button>
           
           <button
-            onClick={() => window.location.href = '/'}
+            onClick={handleLogout}
             style={{
               ...styles.button,
-              ...styles.buttonSecondary
+              backgroundColor: 'rgba(239, 68, 68, 0.15)',
+              color: '#f87171',
+              border: '1px solid rgba(239, 68, 68, 0.3)'
             }}
           >
-            <FaSignOutAlt /> Back to Portfolio
+            <FaSignOutAlt /> Sign Out
           </button>
         </div>
       </div>
 
-      {/* Main Content */}
+      {/* Main Content Area */}
       <div style={styles.main}>
         {renderContent()}
       </div>

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FaStar, FaUser, FaEnvelope, FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
-const FeedbackForm = ({ styles: parentStyles, theme, onFeedbackSubmit }) => {
+const FeedbackForm = ({ onFeedbackSubmit }) => {
   const [recommend, setRecommend] = useState("");
   const [sharedFeedback, setSharedFeedback] = useState("");
   const [suggestion, setSuggestion] = useState("");

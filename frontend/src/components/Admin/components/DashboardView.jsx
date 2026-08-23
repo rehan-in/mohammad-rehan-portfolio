@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaProjectDiagram, FaCode, FaComments, FaRobot, FaEye, FaDownload, FaPlus, FaEye as FaView, FaSave, FaUsers, FaChartLine } from 'react-icons/fa';
+import { FaProjectDiagram, FaCode, FaComments, FaEye, FaDownload, FaPlus, FaExternalLinkAlt as FaView, FaSave, FaUsers, FaChartLine } from 'react-icons/fa';
 
 const DashboardView = ({ styles, theme, stats }) => {
   const quickActions = [
@@ -79,16 +79,6 @@ const DashboardView = ({ styles, theme, stats }) => {
         </div>
 
         <div style={{...styles.card, ...styles.statCard}}>
-          <div style={{...styles.statIcon, backgroundColor: '#ef444420', color: '#ef4444'}}>
-            <FaRobot />
-          </div>
-          <div style={styles.statContent}>
-            <div style={styles.statNumber}>{stats.totalMessages}</div>
-            <div style={styles.statLabel}>Chat Messages</div>
-          </div>
-        </div>
-
-        <div style={{...styles.card, ...styles.statCard}}>
           <div style={{...styles.statIcon, backgroundColor: '#8b5cf620', color: '#8b5cf6'}}>
             <FaEye />
           </div>
@@ -151,12 +141,6 @@ const DashboardView = ({ styles, theme, stats }) => {
               <span>Resume Engagement</span>
               <span style={{ fontWeight: 'bold', color: stats.resumeViews > 0 ? theme.success : theme.textSecondary }}>
                 {stats.resumeViews > 0 ? `${Math.round((stats.resumeDownloads / Math.max(stats.resumeViews, 1)) * 100)}%` : 'No Views'}
-              </span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.75rem', backgroundColor: theme.surfaceLight, borderRadius: '8px' }}>
-              <span>ChatBot Activity</span>
-              <span style={{ fontWeight: 'bold', color: stats.totalMessages > 0 ? theme.success : theme.textSecondary }}>
-                {stats.totalMessages > 0 ? 'Active' : 'No Activity'}
               </span>
             </div>
           </div>

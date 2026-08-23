@@ -89,7 +89,7 @@ const SettingsManagement = ({ styles, theme, onThemeChange, darkMode }) => {
         });
         
         alert('Data imported successfully! Please refresh the page.');
-      } catch (error) {
+      } catch {
         alert('Error importing data. Please check the file format.');
       }
     };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaStar, FaUser, FaEnvelope, FaCalendar, FaTrash, FaEye, FaReply, FaThumbsUp, FaThumbsDown, FaSync } from 'react-icons/fa';
 
-const FeedbackManagement = ({ styles: parentStyles, theme }) => {
+const FeedbackManagement = () => {
   const [feedback, setFeedback] = useState([]);
   const [filter, setFilter] = useState('all');
   const [isRefreshing, setIsRefreshing] = useState(false);

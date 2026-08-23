@@ -2,9 +2,6 @@ import React from 'react';
 import {
   FaLinkedin,
   FaGithub,
-  FaInstagram,
-  FaFacebook,
-  FaTwitter,
   FaEnvelope,
   FaPhone
 } from 'react-icons/fa';
@@ -116,28 +113,40 @@ const Contact = () => {
     }
   };
 
-  // Load contact info from localStorage
-  const loadContactInfo = () => {
+  const getInitialContactInfo = () => {
     const savedInfo = localStorage.getItem('portfolioContactInfo');
     if (savedInfo) {
       return JSON.parse(savedInfo);
     }
-    // Default data if nothing saved
     return {
       email: 'mohdrehanansari95@gmail.com',
       phone: '+91 70523 28932',
       socialLinks: {
         linkedin: 'https://www.linkedin.com/in/mohammad-rehan-7b13262ba?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
         github: 'https://github.com/Mohammad-Rehan0403',
-        leetcode: 'https://leetcode.com/yourprofile',
-        instagram: 'https://www.instagram.com/mohammadrehan04032003?utm_source=qr&igsh=MWszOHdqaTQ4Nmo3aw==',
-        facebook: 'https://facebook.com/yourprofile',
-        twitter: 'https://x.com/Rehan_0403?t=lXucF1hJPILLJy58icSLew&s=09'
+        leetcode: 'https://leetcode.com/yourprofile'
       }
     };
   };
 
-  const contactInfo = loadContactInfo();
+  const [contactInfo, setContactInfo] = React.useState(getInitialContactInfo);
+
+  React.useEffect(() => {
+    const handleSync = () => {
+      const savedInfo = localStorage.getItem('portfolioContactInfo');
+      if (savedInfo) {
+        setContactInfo(JSON.parse(savedInfo));
+      }
+    };
+
+    window.addEventListener('storage', handleSync);
+    const interval = setInterval(handleSync, 1000);
+
+    return () => {
+      window.removeEventListener('storage', handleSync);
+      clearInterval(interval);
+    };
+  }, []);
 
   const socialPlatforms = [
     {
@@ -160,28 +169,6 @@ const Contact = () => {
       icon: <SiLeetcode size={24} />,
       color: '#FFA116',
       url: contactInfo.socialLinks.leetcode
-    },
-    {
-      key: 'instagram',
-      label: 'Instagram',
-      icon: <FaInstagram size={24} />,
-      color: '#E4405F',
-      gradient: 'radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%)',
-      url: contactInfo.socialLinks.instagram
-    },
-    {
-      key: 'facebook',
-      label: 'Facebook',
-      icon: <FaFacebook size={24} />,
-      color: '#1877F2',
-      url: contactInfo.socialLinks.facebook
-    },
-    {
-      key: 'twitter',
-      label: 'Twitter',
-      icon: <FaTwitter size={24} />,
-      color: '#000000',
-      url: contactInfo.socialLinks.twitter
     }
   ];
 

@@ -87,9 +87,7 @@ const SkillsManagement = ({ styles, theme }) => {
       
       // VLSI subcategories
       languages: '#ef4444',
-      tools: '#3b82f6',
       concepts: '#10b981',
-      problemsolving: '#f59e0b',
       
       // Soft Skills subcategories
       communication: '#ef4444',
@@ -160,9 +158,7 @@ const SkillsManagement = ({ styles, theme }) => {
       
       // VLSI
       languages: 'Technical Languages',
-      tools: 'Tools & Software',
       concepts: 'Concepts & Theory',
-      problemsolving: 'Problem Solving',
       
       // Soft Skills
       communication: 'Communication',

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FaRobot, FaComments, FaUsers, FaChartLine, FaCog, FaTrash, FaDownload, FaHistory } from 'react-icons/fa';
 
 const ChatBotManagement = ({ styles, theme }) => {
@@ -12,11 +12,7 @@ const ChatBotManagement = ({ styles, theme }) => {
     }
   });
 
-  useEffect(() => {
-    loadChatData();
-  }, []);
-
-  const loadChatData = () => {
+  const loadChatData = useCallback(() => {
     const chatMessages = localStorage.getItem('chatMessages');
     const messages = chatMessages ? JSON.parse(chatMessages) : [];
     
@@ -27,7 +23,11 @@ const ChatBotManagement = ({ styles, theme }) => {
       conversations: conversations,
       settings: JSON.parse(localStorage.getItem('chatbotSettings') || '{}')
     });
-  };
+  }, []);
+
+  useEffect(() => {
+    loadChatData();
+  }, [loadChatData]);
 
   const groupMessagesIntoConversations = (messages) => {
     const conversations = [];

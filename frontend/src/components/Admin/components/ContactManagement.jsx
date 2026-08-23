@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { FaEnvelope, FaPhone, FaLinkedin, FaGithub, FaInstagram, FaFacebook, FaTwitter, FaSave, FaEdit, FaGlobe } from 'react-icons/fa';
+import { FaEnvelope, FaPhone, FaLinkedin, FaGithub, FaSave, FaEdit, FaGlobe } from 'react-icons/fa';
 import { SiLeetcode } from 'react-icons/si';
 
-const ContactManagement = ({ styles: parentStyles, theme }) => {
+const ContactManagement = () => {
   const [contactInfo, setContactInfo] = useState({
     email: 'mohdrehanansari95@gmail.com',
     phone: '+91 70523 28932',
     socialLinks: {
       linkedin: 'https://www.linkedin.com/in/mohammad-rehan-7b13262ba?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app',
       github: 'https://github.com/Mohammad-Rehan0403',
-      leetcode: 'https://leetcode.com/yourprofile',
-      instagram: 'https://www.instagram.com/mohammadrehan04032003?utm_source=qr&igsh=MWszOHdqaTQ4Nmo3aw==',
-      facebook: 'https://facebook.com/yourprofile',
-      twitter: 'https://x.com/Rehan_0403?t=lXucF1hJPILLJy58icSLew&s=09'
+      leetcode: 'https://leetcode.com/yourprofile'
     }
   });
   const [isEditing, setIsEditing] = useState(false);
@@ -56,7 +53,6 @@ const ContactManagement = ({ styles: parentStyles, theme }) => {
       marginBottom: '1.5rem'
     },
     label: {
-      display: 'block',
       fontWeight: '600',
       marginBottom: '0.75rem',
       fontSize: '1rem',
@@ -164,27 +160,6 @@ const ContactManagement = ({ styles: parentStyles, theme }) => {
       icon: <SiLeetcode />,
       color: '#FFA116',
       placeholder: 'https://leetcode.com/yourprofile'
-    },
-    {
-      key: 'instagram',
-      label: 'Instagram',
-      icon: <FaInstagram />,
-      color: '#E4405F',
-      placeholder: 'https://instagram.com/yourprofile'
-    },
-    {
-      key: 'facebook',
-      label: 'Facebook',
-      icon: <FaFacebook />,
-      color: '#1877F2',
-      placeholder: 'https://facebook.com/yourprofile'
-    },
-    {
-      key: 'twitter',
-      label: 'Twitter',
-      icon: <FaTwitter />,
-      color: '#1DA1F2',
-      placeholder: 'https://twitter.com/yourprofile'
     }
   ];
 

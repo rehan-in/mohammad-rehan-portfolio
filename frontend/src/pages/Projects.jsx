@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { FaCode, FaGithub, FaExternalLinkAlt, FaMicrochip, FaStar, FaUserCog } from 'react-icons/fa';
-import { SiRaspberrypi } from 'react-icons/si';
 
 const Projects = () => {
   const [filter, setFilter] = useState('All');
@@ -68,44 +67,11 @@ const Projects = () => {
 
   const theme = isDark ? color.dark : color.light;
 
-  const defaultProjects = [
-    {
-      domain: 'Full Stack',
-      icon: <FaCode title="Full Stack Project" />,
-      title: 'AI ChatBot Portfolio',
-      description: 'Modern portfolio with React, Express.js, OpenAI API chatbot integration.',
-      tools: ['React', 'Express', 'Node.js'],
-      github: 'https://github.com/your-portfolio',
-      demo: 'https://your-site.vercel.app',
-      image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
-    },
-    {
-      domain: 'VLSI',
-      icon: <FaMicrochip title="VLSI Project" />,
-      title: 'Decoder From binary to 7-segment display',
-      description: 'Binary → One-Hot → Hex Digit → 7-Segment',
-      tools: ['Verilog', 'Vivado', 'FSM'],
-      github: 'https://github.com/your-vlsi',
-      image: 'https://images.unsplash.com/photo-1581094288338-231b058b38b8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
-    },
-    {
-      domain: 'Embedded Systems',
-      icon: <SiRaspberrypi title="Embedded Project" />,
-      title: 'Smart Irrigation System',
-      description: 'IoT soil moisture system using Raspberry Pi, MQTT, and auto watering.',
-      tools: ['Python', 'MQTT', 'Raspberry Pi'],
-      github: 'https://github.com/your-embedded',
-      image: 'https://images.unsplash.com/photo-1586771107445-d3ca888129ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
-    }
-  ];
+  const defaultProjects = [];
 
   const transformedAdminProjects = adminProjects.map(project => ({
-    domain: project.category === 'web' ? 'Full Stack' : 
-            project.category === 'embedded' ? 'Embedded Systems' : 
-            project.category === 'vlsi' ? 'VLSI' : 'Other',
-    icon: project.category === 'web' ? <FaCode title="Full Stack Project" /> :
-          project.category === 'embedded' ? <SiRaspberrypi title="Embedded Project" /> :
-          project.category === 'vlsi' ? <FaMicrochip title="VLSI Project" /> : <FaCode title="Project" />,
+    domain: project.category === 'vlsi' ? 'VLSI' : 'Full Stack',
+    icon: project.category === 'vlsi' ? <FaMicrochip title="VLSI Project" /> : <FaCode title="Full Stack Project" />,
     title: project.title,
     description: project.description || 'No description available',
     tools: project.technologies || [],
@@ -160,7 +126,7 @@ const Projects = () => {
     startTypingEffect(projectIndex, description);
   };
 
-  const handleMouseLeave = (projectIndex) => {
+  const handleMouseLeave = () => {
     setActiveTypingIndex(-1);
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
@@ -232,7 +198,7 @@ const Projects = () => {
             flexWrap: 'wrap' 
           }}
         >
-          {['All', 'VLSI', 'Embedded Systems', 'Full Stack'].map((d, i) => (
+          {['All', 'VLSI', 'Full Stack'].map((d, i) => (
             <motion.button
               key={i}
               whileHover={{ scale: 1.05 }}
