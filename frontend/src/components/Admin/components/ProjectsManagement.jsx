@@ -17,13 +17,54 @@ const ProjectsManagement = ({ styles, theme }) => {
     featured: false
   });
 
+  const initialDefaultProjects = [
+    {
+      id: 1,
+      title: "Interactive Portfolio & Admin Suite",
+      description: "A full-stack portfolio application featuring an interactive Admin portal, JWT authentication, live project ratings, theme customization, and MongoDB database integration.",
+      category: "web",
+      technologies: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS"],
+      githubUrl: "https://github.com/Mohammad-Rehan0403",
+      liveUrl: "https://mohammad-rehan-portfolio.vercel.app",
+      imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80",
+      featured: true
+    },
+    {
+      id: 2,
+      title: "Binary to 7-Segment Decoder & FSM Architectures",
+      description: "RTL design, testbench verification, and hardware simulation of a multi-digit hex decoder and finite state machines built using Verilog HDL and Xilinx Vivado.",
+      category: "vlsi",
+      technologies: ["Verilog HDL", "Xilinx Vivado", "Digital System Design", "FSM"],
+      githubUrl: "https://github.com/Mohammad-Rehan0403",
+      liveUrl: "",
+      imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80",
+      featured: true
+    },
+    {
+      id: 3,
+      title: "AI Powered Portfolio Chatbot Microservice",
+      description: "Intelligent chatbot service integrating Google Gemini AI and dynamic fallbacks to answer questions about technical skills, projects, and contact info.",
+      category: "web",
+      technologies: ["Node.js", "Express.js", "Gemini AI API", "REST API"],
+      githubUrl: "https://github.com/Mohammad-Rehan0403",
+      liveUrl: "https://mohammad-rehan-portfolio.vercel.app",
+      imageUrl: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=1000&q=80",
+      featured: false
+    }
+  ];
+
   useEffect(() => {
     loadProjects();
   }, []);
 
   const loadProjects = () => {
     const savedProjects = localStorage.getItem('portfolioProjects');
-    setProjects(savedProjects ? JSON.parse(savedProjects) : []);
+    if (savedProjects && JSON.parse(savedProjects).length > 0) {
+      setProjects(JSON.parse(savedProjects));
+    } else {
+      setProjects(initialDefaultProjects);
+      localStorage.setItem('portfolioProjects', JSON.stringify(initialDefaultProjects));
+    }
   };
 
   const saveProjects = (updatedProjects) => {

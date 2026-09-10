@@ -67,7 +67,41 @@ const Projects = () => {
 
   const theme = isDark ? color.dark : color.light;
 
-  const defaultProjects = [];
+  const defaultProjects = [
+    {
+      domain: 'Full Stack',
+      icon: <FaCode title="Full Stack Project" />,
+      title: "Interactive Portfolio & Admin Suite",
+      description: "A full-stack portfolio application featuring an interactive Admin portal, JWT authentication, live project ratings, theme customization, and MongoDB database integration.",
+      tools: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS"],
+      github: "https://github.com/Mohammad-Rehan0403",
+      demo: "https://mohammad-rehan-portfolio.vercel.app",
+      image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80",
+      featured: true
+    },
+    {
+      domain: 'VLSI',
+      icon: <FaMicrochip title="VLSI Project" />,
+      title: "Binary to 7-Segment Decoder & FSM Architectures",
+      description: "RTL design, testbench verification, and hardware simulation of a multi-digit hex decoder and finite state machines built using Verilog HDL and Xilinx Vivado.",
+      tools: ["Verilog HDL", "Xilinx Vivado", "Digital System Design", "FSM"],
+      github: "https://github.com/Mohammad-Rehan0403",
+      demo: "",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80",
+      featured: true
+    },
+    {
+      domain: 'Full Stack',
+      icon: <FaCode title="Full Stack Project" />,
+      title: "AI Powered Portfolio Chatbot Microservice",
+      description: "Intelligent chatbot service integrating Google Gemini AI and dynamic fallbacks to answer questions about technical skills, projects, and contact info.",
+      tools: ["Node.js", "Express.js", "Gemini AI API", "REST API"],
+      github: "https://github.com/Mohammad-Rehan0403",
+      demo: "https://mohammad-rehan-portfolio.vercel.app",
+      image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=1000&q=80",
+      featured: false
+    }
+  ];
 
   const transformedAdminProjects = adminProjects.map(project => ({
     domain: project.category === 'vlsi' ? 'VLSI' : 'Full Stack',
