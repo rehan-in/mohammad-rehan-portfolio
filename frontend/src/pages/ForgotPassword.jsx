@@ -18,7 +18,8 @@ const ForgotPassword = () => {
 
     try {
       try {
-        const res = await axios.post('http://localhost:5000/api/auth/forgot-password', { email });
+        const apiUrl = import.meta.env.VITE_API_URL || '';
+        const res = await axios.post(`${apiUrl}/api/auth/forgot-password`, { email });
         setMessage(res.data.msg || 'Password reset link sent to registered Admin email.');
       } catch {
         // Fallback info for admin password reset if backend mailer service is offline

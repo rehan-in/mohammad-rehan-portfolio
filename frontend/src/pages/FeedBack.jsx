@@ -196,7 +196,8 @@ const FeedbackForm = ({ onFeedbackSubmit }) => {
     try {
       // Option 1: Save to backend API (if available)
       if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        const response = await fetch("http://localhost:5000/api/feedback", {
+        const apiUrl = import.meta.env.VITE_API_URL || '';
+        const response = await fetch(`${apiUrl}/api/feedback`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),

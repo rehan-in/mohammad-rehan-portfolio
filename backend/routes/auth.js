@@ -68,8 +68,8 @@ router.post("/forgot-password", async (req, res) => {
     user.resetToken = token;
     user.resetTokenExpire = Date.now() + 30 * 60 * 1000; // 30 mins
     await user.save();
-
-    const resetLink = `http://localhost:3000/reset-password/${token}`;
+    const clientUrl = process.env.CLIENT_URL || "http://localhost:5173";
+    const resetLink = `${clientUrl}/reset-password/${token}`;
 
     const transporter = nodemailer.createTransport({
       service: "Gmail",

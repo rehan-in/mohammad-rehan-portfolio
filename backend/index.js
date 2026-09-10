@@ -5,23 +5,47 @@ require("dotenv").config();
 
 const feedbackRoutes = require("./routes/feedback");
 const authRoutes = require("./routes/auth");
+const chatRoutes = require("./routes/chat");
 const Rating = require("./models/Rating");
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
+// Database connection handler for serverless & local env
+const connectDB = async () => {
+  if (mongoose.connection.readyState >= 1) return;
+  if (!process.env.MONGO_URI) {
+    console.warn("⚠️ MONGO_URI is not defined in environment variables.");
+    return;
+  }
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("✅ MongoDB connected");
+  } catch (err) {
+    console.error("❌ MongoDB connection error:", err);
+  }
+};
+
+// Ensure DB is connected on incoming requests
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
+
+// Routes
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/chat", chatRoutes);
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB connected"))
-  .catch((err) => console.error("❌ MongoDB error:", err));
-
-// Welcome
+// Welcome / Health check endpoints
 app.get("/", (req, res) => {
   res.send("Welcome to the backend server!");
+});
+
+app.get("/api", (req, res) => {
+  res.json({ status: "ok", msg: "Backend API is running on Vercel" });
 });
 
 // ------------------- RATINGS -------------------
@@ -58,5 +82,11 @@ app.post("/api/rating", async (req, res) => {
   }
 });
 
+// Local development server runner
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+}
+
+module.exports = app;
+

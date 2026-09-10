@@ -138,7 +138,8 @@ const Projects = () => {
     setSubmitted((prev) => ({ ...prev, [index]: false }));
 
     try {
-      const response = await fetch("http://localhost:5000/api/rating", {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${apiUrl}/api/rating`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ projectTitle: project.title, rating: num }),

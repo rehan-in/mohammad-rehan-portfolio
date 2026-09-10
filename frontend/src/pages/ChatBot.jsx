@@ -216,7 +216,8 @@ const ChatBot = () => {
 
     let botResponse = '';
     try {
-      const res = await fetch('http://localhost:5000/api/chat', {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const res = await fetch(`${apiUrl}/api/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

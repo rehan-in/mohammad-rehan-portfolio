@@ -27,7 +27,8 @@ const Login = () => {
     try {
       let token = '';
       try {
-        const res = await axios.post('http://localhost:5000/api/auth/login', {
+        const apiUrl = import.meta.env.VITE_API_URL || '';
+        const res = await axios.post(`${apiUrl}/api/auth/login`, {
           email,
           password,
         });
