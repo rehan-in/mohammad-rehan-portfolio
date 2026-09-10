@@ -20,35 +20,57 @@ const ProjectsManagement = ({ styles, theme }) => {
   const initialDefaultProjects = [
     {
       id: 1,
-      title: "Interactive Portfolio & Admin Suite",
-      description: "A full-stack portfolio application featuring an interactive Admin portal, JWT authentication, live project ratings, theme customization, and MongoDB database integration.",
+      title: "Employee Management System",
+      description: "A full-stack Employee Management System built with a relational database, React frontend, and Node/Express backend for managing employee records, departments, and payroll.",
       category: "web",
-      technologies: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS"],
+      technologies: ["React", "Node.js", "Express.js", "MongoDB", "Tailwind CSS"],
       githubUrl: "https://github.com/Mohammad-Rehan0403",
       liveUrl: "https://mohammad-rehan-portfolio.vercel.app",
-      imageUrl: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1000&q=80",
+      imageUrl: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1000&q=80",
       featured: true
     },
     {
       id: 2,
-      title: "Binary to 7-Segment Decoder & FSM Architectures",
-      description: "RTL design, testbench verification, and hardware simulation of a multi-digit hex decoder and finite state machines built using Verilog HDL and Xilinx Vivado.",
+      title: "4-bit Binary Coded Hexadecimal to 7-Segment Display Decoder",
+      description: "A Verilog based implementation of a 4 bit Binary Coded Hexadecimal to 7-Segment Display Decoder module verified on Spartan 7 FPGA board.",
       category: "vlsi",
-      technologies: ["Verilog HDL", "Xilinx Vivado", "Digital System Design", "FSM"],
+      technologies: ["Verilog", "Spartan 7", "FPGA", "Digital Logic", "Vivado"],
       githubUrl: "https://github.com/Mohammad-Rehan0403",
       liveUrl: "",
       imageUrl: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80",
-      featured: true
+      featured: false
     },
     {
       id: 3,
-      title: "AI Powered Portfolio Chatbot Microservice",
-      description: "Intelligent chatbot service integrating Google Gemini AI and dynamic fallbacks to answer questions about technical skills, projects, and contact info.",
+      title: "Parameterized Counter using FSM (SystemVerilog)",
+      description: "This project presents the design and verification of a parameterized counter with finite state machine (FSM) control in SystemVerilog.",
+      category: "vlsi",
+      technologies: ["SystemVerilog", "FSM", "Digital-Design", "EDA Playground", "Vivado"],
+      githubUrl: "https://github.com/Mohammad-Rehan0403",
+      liveUrl: "",
+      imageUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1000&q=80",
+      featured: false
+    },
+    {
+      id: 4,
+      title: "Design and Verification of Synchronous FIFO using SystemVerilog",
+      description: "This project implements a parameterized synchronous FIFO (First-In-First-Out) buffer with RTL architecture and SystemVerilog testbench verification.",
+      category: "vlsi",
+      technologies: ["FIFO", "SystemVerilog", "RTL architecture", "Testbench", "Digital Logic"],
+      githubUrl: "https://github.com/Mohammad-Rehan0403",
+      liveUrl: "",
+      imageUrl: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1000&q=80",
+      featured: false
+    },
+    {
+      id: 5,
+      title: "DayPlanner",
+      description: "DayPlanner is a full-stack MERN (MongoDB, Express, React, Node.js) application designed for interactive task scheduling and daily planning.",
       category: "web",
-      technologies: ["Node.js", "Express.js", "Gemini AI API", "REST API"],
+      technologies: ["MERN", "MongoDB", "Express", "React", "Node.js", "Tailwind CSS"],
       githubUrl: "https://github.com/Mohammad-Rehan0403",
       liveUrl: "https://mohammad-rehan-portfolio.vercel.app",
-      imageUrl: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=1000&q=80",
+      imageUrl: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1000&q=80",
       featured: false
     }
   ];
