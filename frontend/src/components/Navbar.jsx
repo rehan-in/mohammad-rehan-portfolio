@@ -40,7 +40,7 @@ const Navbar = () => {
 
         {/* Center Nav Links - Desktop */}
         <div style={styles.navLinks}>
-          {['Home', 'Projects', 'Skills', 'Education', 'Resume', 'Feedback', 'Contact', 'Admin'].map((item) => (
+          {['Home', 'Projects', 'Skills', 'Education', 'Resume', 'Feedback', 'Contact'].map((item) => (
             <Link
               key={item}
               to={`/${item === 'Home' ? '' : item.toLowerCase()}`}
@@ -56,10 +56,10 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Right Side: Login + Theme Toggle - Desktop */}
+        {/* Right Side: Admin Portal / Login + Theme Toggle - Desktop */}
         <div style={styles.rightContainer}>
           <Link
-            to="/login"
+            to={localStorage.getItem('authToken') || sessionStorage.getItem('authToken') ? "/admin" : "/login"}
             style={{
               ...styles.loginButton,
               backgroundColor: theme.accent,
@@ -68,7 +68,7 @@ const Navbar = () => {
             onMouseEnter={(e) => (e.target.style.backgroundColor = theme.hover)}
             onMouseLeave={(e) => (e.target.style.backgroundColor = theme.accent)}
           >
-            Login
+            {localStorage.getItem('authToken') || sessionStorage.getItem('authToken') ? "Admin Portal" : "Admin Login"}
           </Link>
 
           <button
@@ -101,7 +101,7 @@ const Navbar = () => {
             ))}
             <div style={styles.mobileButtons}>
               <Link
-                to="/login"
+                to={localStorage.getItem('authToken') || sessionStorage.getItem('authToken') ? "/admin" : "/login"}
                 style={{
                   ...styles.mobileLoginButton,
                   backgroundColor: theme.accent,
@@ -109,7 +109,7 @@ const Navbar = () => {
                 }}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Login
+                {localStorage.getItem('authToken') || sessionStorage.getItem('authToken') ? "Admin Portal" : "Admin Login"}
               </Link>
               <button
                 onClick={() => {

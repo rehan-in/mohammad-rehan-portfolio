@@ -39,6 +39,38 @@ router.post("/signup", async (req, res) => {
 });
 
 
+// ---------------------- ADD ADMIN ----------------------
+router.post("/add-admin", async (req, res) => {
+  const { firstName, lastName, email, password } = req.body;
+
+  if (!firstName || !lastName || !email || !password) {
+    return res.status(400).json({ msg: "Please fill all fields" });
+  }
+
+  try {
+    const existingUser = await User.findOne({ email: email.toLowerCase() });
+    if (existingUser) return res.status(400).json({ msg: "Email already registered" });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({
+      firstName,
+      lastName,
+      email: email.toLowerCase(),
+      password: hashedPassword
+    });
+
+    await newUser.save();
+
+    res.status(201).json({ msg: "New admin added successfully", user: { id: newUser._id, email: newUser.email, name: `${firstName} ${lastName}` } });
+
+  } catch (err) {
+    console.error("Add admin error:", err);
+    res.status(500).json({ msg: "Server error while adding admin" });
+  }
+});
+
+
 // ---------------------- LOGIN ----------------------
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;

@@ -7,6 +7,7 @@ const feedbackSchema = new mongoose.Schema({
   satisfaction: Number,
   fullName: String,
   email: String,
+  status: { type: String, default: 'new' },
   submittedAt: { type: Date, default: Date.now }
 });
 

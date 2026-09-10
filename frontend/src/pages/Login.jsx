@@ -221,16 +221,13 @@ const Login = () => {
           </button>
         </form>
 
-        <div style={{ marginTop: '1.8rem', paddingTop: '1.2rem', borderTop: '1px solid rgba(255, 255, 255, 0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.85rem' }}>
+        <div style={{ marginTop: '1.8rem', paddingTop: '1.2rem', borderTop: '1px solid rgba(255, 255, 255, 0.08)', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '0.85rem' }}>
           <button
             onClick={() => navigate('/')}
             style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
           >
             <FaArrowLeft /> Back to Home
           </button>
-          <Link to="/signup" style={{ color: '#60a5fa', textDecoration: 'none', fontWeight: '600' }}>
-            Create Admin Account
-          </Link>
         </div>
 
       </div>

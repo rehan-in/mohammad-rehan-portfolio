@@ -194,22 +194,20 @@ const FeedbackForm = ({ onFeedbackSubmit }) => {
     };
 
     try {
-      // Option 1: Save to backend API (if available)
-      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        const apiUrl = import.meta.env.VITE_API_URL || '';
-        const response = await fetch(`${apiUrl}/api/feedback`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
+      // Save to backend API (MongoDB)
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${apiUrl}/api/feedback`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-        if (response.ok) {
-          const result = await response.json();
-          console.log('Backend submission successful:', result);
-        }
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Backend submission successful:', result);
       }
       
-      // Option 2: Always save to localStorage (fallback)
+      // Also save to localStorage as backup
       const newFeedback = saveFeedbackToLocalStorage(formData);
       
       // Notify parent component if callback provided

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   FaCog, FaSave, FaTrash, FaDownload, FaUpload, FaUser, 
-  FaPalette, FaBell, FaDatabase, FaLock, FaExclamationTriangle 
+  FaPalette, FaBell, FaDatabase, FaLock, FaExclamationTriangle, FaUserPlus 
 } from 'react-icons/fa';
 
 const SettingsManagement = ({ styles, theme, onThemeChange, darkMode }) => {
@@ -24,6 +24,15 @@ const SettingsManagement = ({ styles, theme, onThemeChange, darkMode }) => {
   });
 
   const [activeTab, setActiveTab] = useState('profile');
+  const [newAdmin, setNewAdmin] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [addAdminLoading, setAddAdminLoading] = useState(false);
+  const [addAdminMessage, setAddAdminMessage] = useState({ text: '', type: '' });
 
   useEffect(() => {
     loadSettings();
@@ -39,6 +48,51 @@ const SettingsManagement = ({ styles, theme, onThemeChange, darkMode }) => {
   const saveSettings = () => {
     localStorage.setItem('adminSettings', JSON.stringify(settings));
     alert('Settings saved successfully!');
+  };
+
+  const handleAddAdmin = async (e) => {
+    e.preventDefault();
+    setAddAdminMessage({ text: '', type: '' });
+
+    if (!newAdmin.firstName || !newAdmin.lastName || !newAdmin.email || !newAdmin.password) {
+      setAddAdminMessage({ text: 'Please fill out all fields.', type: 'error' });
+      return;
+    }
+
+    if (newAdmin.password !== newAdmin.confirmPassword) {
+      setAddAdminMessage({ text: 'Passwords do not match.', type: 'error' });
+      return;
+    }
+
+    setAddAdminLoading(true);
+
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${apiUrl}/api/auth/add-admin`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: newAdmin.firstName,
+          lastName: newAdmin.lastName,
+          email: newAdmin.email,
+          password: newAdmin.password
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setAddAdminMessage({ text: `✅ ${data.msg || 'New Admin added successfully!'}`, type: 'success' });
+        setNewAdmin({ firstName: '', lastName: '', email: '', password: '', confirmPassword: '' });
+      } else {
+        setAddAdminMessage({ text: `❌ ${data.msg || 'Failed to add admin.'}`, type: 'error' });
+      }
+    } catch (err) {
+      console.error('Error adding admin:', err);
+      setAddAdminMessage({ text: '❌ Server error while adding admin.', type: 'error' });
+    } finally {
+      setAddAdminLoading(false);
+    }
   };
 
   const updateSetting = (category, field, value) => {
@@ -108,6 +162,7 @@ const SettingsManagement = ({ styles, theme, onThemeChange, darkMode }) => {
 
   const tabs = [
     { id: 'profile', label: 'Profile', icon: <FaUser /> },
+    { id: 'addAdmin', label: 'Add Admin', icon: <FaUserPlus /> },
     { id: 'preferences', label: 'Preferences', icon: <FaPalette /> },
     { id: 'security', label: 'Security', icon: <FaLock /> },
     { id: 'backup', label: 'Backup & Restore', icon: <FaDatabase /> }
@@ -154,6 +209,108 @@ const SettingsManagement = ({ styles, theme, onThemeChange, darkMode }) => {
                 rows="4"
               />
             </div>
+          </div>
+        );
+
+      case 'addAdmin':
+        return (
+          <div>
+            <h3 style={{ marginBottom: '1.5rem', color: theme.text, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <FaUserPlus /> Add New Admin
+            </h3>
+            <p style={{ color: theme.textSecondary, marginBottom: '1.5rem', fontSize: '0.9rem' }}>
+              As an active administrator, you can grant administrative access to new team members.
+            </p>
+
+            {addAdminMessage.text && (
+              <div style={{
+                padding: '0.8rem 1rem',
+                borderRadius: '10px',
+                marginBottom: '1.5rem',
+                backgroundColor: addAdminMessage.type === 'success' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)',
+                color: addAdminMessage.type === 'success' ? '#34d399' : '#f87171',
+                border: `1px solid ${addAdminMessage.type === 'success' ? '#10b981' : '#ef4444'}`
+              }}>
+                {addAdminMessage.text}
+              </div>
+            )}
+
+            <form onSubmit={handleAddAdmin}>
+              <div style={styles.grid}>
+                <div style={styles.formGroup}>
+                  <label style={styles.label}>First Name</label>
+                  <input
+                    type="text"
+                    style={styles.input}
+                    placeholder="Enter first name"
+                    value={newAdmin.firstName}
+                    onChange={(e) => setNewAdmin({ ...newAdmin, firstName: e.target.value })}
+                    required
+                  />
+                </div>
+                <div style={styles.formGroup}>
+                  <label style={styles.label}>Last Name</label>
+                  <input
+                    type="text"
+                    style={styles.input}
+                    placeholder="Enter last name"
+                    value={newAdmin.lastName}
+                    onChange={(e) => setNewAdmin({ ...newAdmin, lastName: e.target.value })}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div style={styles.formGroup}>
+                <label style={styles.label}>Admin Email Address</label>
+                <input
+                  type="email"
+                  style={styles.input}
+                  placeholder="admin@example.com"
+                  value={newAdmin.email}
+                  onChange={(e) => setNewAdmin({ ...newAdmin, email: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div style={styles.grid}>
+                <div style={styles.formGroup}>
+                  <label style={styles.label}>Password</label>
+                  <input
+                    type="password"
+                    style={styles.input}
+                    placeholder="••••••••"
+                    value={newAdmin.password}
+                    onChange={(e) => setNewAdmin({ ...newAdmin, password: e.target.value })}
+                    required
+                  />
+                </div>
+                <div style={styles.formGroup}>
+                  <label style={styles.label}>Confirm Password</label>
+                  <input
+                    type="password"
+                    style={styles.input}
+                    placeholder="••••••••"
+                    value={newAdmin.confirmPassword}
+                    onChange={(e) => setNewAdmin({ ...newAdmin, confirmPassword: e.target.value })}
+                    required
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={addAdminLoading}
+                style={{
+                  ...styles.button,
+                  ...styles.buttonPrimary,
+                  marginTop: '1rem',
+                  opacity: addAdminLoading ? 0.7 : 1
+                }}
+              >
+                <FaUserPlus /> {addAdminLoading ? 'Adding Admin...' : 'Add New Admin'}
+              </button>
+            </form>
           </div>
         );
 
@@ -371,7 +528,7 @@ const SettingsManagement = ({ styles, theme, onThemeChange, darkMode }) => {
         <div style={{...styles.card, flex: 1}}>
           {renderTabContent()}
           
-          {activeTab !== 'backup' && (
+          {activeTab !== 'backup' && activeTab !== 'addAdmin' && (
             <div style={{ marginTop: '2rem', paddingTop: '1.5rem', borderTop: `1px solid ${theme.border}` }}>
               <button 
                 style={{...styles.button, ...styles.buttonSuccess}}

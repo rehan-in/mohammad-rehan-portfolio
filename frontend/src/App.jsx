@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import 'aos/dist/aos.css';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -9,7 +9,6 @@ import Skills from './pages/skills';
 import Feedback from './pages/FeedBack';
 import Resume from './pages/Resume';
 import Login from './pages/Login';
-import Signup from './pages/Signup';
 import ImageSlider from './components/ImageSlider';
 import ResetPassword from './pages/ResetPassword';
 import ForgotPassword from './pages/ForgotPassword';
@@ -30,7 +29,7 @@ function App() {
           <Route path="/feedback" element={<Feedback />} />
           <Route path="/resume" element={<Resume />} />
           <Route path="/Login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/signup" element={<Navigate to="/login" replace />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/admin" element={<Admin />} />

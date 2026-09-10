@@ -105,45 +105,40 @@ const FeedbackManagement = () => {
     }
   };
 
-  const loadFeedback = () => {
+  const loadFeedback = async () => {
     setIsRefreshing(true);
+    const apiUrl = import.meta.env.VITE_API_URL || '';
     
     try {
-      // Try to load from localStorage first
-      const savedFeedback = JSON.parse(localStorage.getItem('portfolioFeedback') || '[]');
-      
-      if (savedFeedback.length > 0) {
-        setFeedback(savedFeedback);
-      } else {
-        // Fallback to sample data if no saved feedback
-        const sampleFeedback = [
-          {
-            id: 1,
-            name: 'John Doe',
-            email: 'john@example.com',
-            rating: 5,
-            message: 'Great portfolio! Love the design and projects.',
-            timestamp: new Date('2024-01-15').toISOString(),
-            status: 'new',
-            recommend: 'yes',
-            sharedFeedback: 'yes'
-          },
-          {
-            id: 2,
-            name: 'Jane Smith',
-            email: 'jane@example.com',
-            rating: 4,
-            message: 'Nice work on the VLSI projects. Very impressive!',
-            timestamp: new Date('2024-01-14').toISOString(),
-            status: 'read',
-            recommend: 'yes',
-            sharedFeedback: 'yes'
-          }
-        ];
-        setFeedback(sampleFeedback);
-        // Save sample data to localStorage for future use
-        localStorage.setItem('portfolioFeedback', JSON.stringify(sampleFeedback));
+      // 1. Try loading from MongoDB API
+      const res = await fetch(`${apiUrl}/api/feedback`);
+      if (res.ok) {
+        const dbFeedbacks = await res.json();
+        if (Array.isArray(dbFeedbacks) && dbFeedbacks.length > 0) {
+          const formattedFeedbacks = dbFeedbacks.map(item => ({
+            id: item._id,
+            name: item.fullName || item.name || 'Anonymous',
+            email: item.email || 'N/A',
+            rating: item.satisfaction || item.rating || 5,
+            message: item.suggestion || item.message || 'No specific suggestions provided',
+            timestamp: item.submittedAt || item.timestamp || new Date().toISOString(),
+            status: item.status || 'new',
+            recommend: item.recommend || 'yes',
+            sharedFeedback: item.sharedFeedback || 'yes'
+          }));
+          setFeedback(formattedFeedbacks);
+          localStorage.setItem('portfolioFeedback', JSON.stringify(formattedFeedbacks));
+          return;
+        }
       }
+    } catch (err) {
+      console.warn('Backend feedback fetch failed, falling back to local storage:', err);
+    }
+
+    try {
+      // 2. Fallback to localStorage if backend is empty or unavailable
+      const savedFeedback = JSON.parse(localStorage.getItem('portfolioFeedback') || '[]');
+      setFeedback(savedFeedback);
     } catch (error) {
       console.error('Error loading feedback:', error);
     } finally {
@@ -165,15 +160,31 @@ const FeedbackManagement = () => {
     return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
-  const deleteFeedback = (id) => {
+  const deleteFeedback = async (id) => {
     if (window.confirm('Are you sure you want to delete this feedback?')) {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      try {
+        await fetch(`${apiUrl}/api/feedback/${id}`, { method: 'DELETE' });
+      } catch (err) {
+        console.warn('Backend delete failed, removing locally:', err);
+      }
       const updatedFeedback = feedback.filter(item => item.id !== id);
       setFeedback(updatedFeedback);
       localStorage.setItem('portfolioFeedback', JSON.stringify(updatedFeedback));
     }
   };
 
-  const markAsRead = (id) => {
+  const markAsRead = async (id) => {
+    const apiUrl = import.meta.env.VITE_API_URL || '';
+    try {
+      await fetch(`${apiUrl}/api/feedback/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'read' })
+      });
+    } catch (err) {
+      console.warn('Backend update failed, updating locally:', err);
+    }
     const updatedFeedback = feedback.map(item => 
       item.id === id ? { ...item, status: 'read' } : item
     );
@@ -181,8 +192,14 @@ const FeedbackManagement = () => {
     localStorage.setItem('portfolioFeedback', JSON.stringify(updatedFeedback));
   };
 
-  const clearAllFeedback = () => {
+  const clearAllFeedback = async () => {
     if (window.confirm('Are you sure you want to delete ALL feedback? This action cannot be undone.')) {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      try {
+        await fetch(`${apiUrl}/api/feedback`, { method: 'DELETE' });
+      } catch (err) {
+        console.warn('Backend clear all failed, clearing locally:', err);
+      }
       setFeedback([]);
       localStorage.removeItem('portfolioFeedback');
     }
