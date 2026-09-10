@@ -15,16 +15,50 @@ const Skills = () => {
     loadSkillsFromStorage();
   }, []);
 
+  const defaultSkills = [
+    // Technical Skills
+    { id: 1, name: 'React.js', category: 'technical', subcategory: 'frontend' },
+    { id: 2, name: 'JavaScript (ES6+)', category: 'technical', subcategory: 'frontend' },
+    { id: 3, name: 'HTML5 & CSS3', category: 'technical', subcategory: 'frontend' },
+    { id: 4, name: 'Tailwind CSS', category: 'technical', subcategory: 'frontend' },
+    { id: 5, name: 'Node.js', category: 'technical', subcategory: 'backend' },
+    { id: 6, name: 'Express.js', category: 'technical', subcategory: 'backend' },
+    { id: 7, name: 'RESTful APIs', category: 'technical', subcategory: 'backend' },
+    { id: 8, name: 'MongoDB', category: 'technical', subcategory: 'database' },
+    { id: 9, name: 'Mongoose', category: 'technical', subcategory: 'database' },
+    { id: 10, name: 'Git & GitHub', category: 'technical', subcategory: 'tools' },
+    { id: 11, name: 'VS Code & Postman', category: 'technical', subcategory: 'tools' },
+    { id: 12, name: 'Vercel Deployment', category: 'technical', subcategory: 'devops' },
+
+    // VLSI Skills
+    { id: 13, name: 'Verilog HDL', category: 'vlsi', subcategory: 'languages' },
+    { id: 14, name: 'SystemVerilog', category: 'vlsi', subcategory: 'languages' },
+    { id: 15, name: 'C++', category: 'vlsi', subcategory: 'languages' },
+    { id: 16, name: 'Digital System Design', category: 'vlsi', subcategory: 'concepts' },
+    { id: 17, name: 'Finite State Machine (FSM)', category: 'vlsi', subcategory: 'concepts' },
+    { id: 18, name: 'FPGA (Spartan 7)', category: 'vlsi', subcategory: 'concepts' },
+    { id: 19, name: 'Xilinx Vivado', category: 'vlsi', subcategory: 'tools' },
+    { id: 20, name: 'LTSpice', category: 'vlsi', subcategory: 'tools' },
+
+    // Soft Skills
+    { id: 21, name: 'Technical Documentation', category: 'soft', subcategory: 'communication' },
+    { id: 22, name: 'Team Collaboration', category: 'soft', subcategory: 'collaboration' },
+    { id: 23, name: 'Project Management', category: 'soft', subcategory: 'leadership' },
+    { id: 24, name: 'Analytical Thinking', category: 'soft', subcategory: 'problemsolving' }
+  ];
+
   const loadSkillsFromStorage = () => {
     try {
       const savedSkills = localStorage.getItem('portfolioSkills');
-      if (savedSkills) {
+      if (savedSkills && JSON.parse(savedSkills).length > 0) {
         const parsedSkills = JSON.parse(savedSkills);
-        setAdminSkills(Array.isArray(parsedSkills) ? parsedSkills : []);
+        setAdminSkills(Array.isArray(parsedSkills) ? parsedSkills : defaultSkills);
+      } else {
+        setAdminSkills(defaultSkills);
       }
     } catch (error) {
       console.error('Error loading skills:', error);
-      setAdminSkills([]);
+      setAdminSkills(defaultSkills);
     }
   };
 
